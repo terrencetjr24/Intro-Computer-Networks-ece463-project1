@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D5842951232EA42300F247E6 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = D5842950232EA42300F247E6 /* main.c */; };
+		D5842951232EA42300F247E6 /* httpserver.randall7.c in Sources */ = {isa = PBXBuildFile; fileRef = D5842950232EA42300F247E6 /* httpserver.randall7.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +24,8 @@
 
 /* Begin PBXFileReference section */
 		D584294D232EA42300F247E6 /* part2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = part2; sourceTree = BUILT_PRODUCTS_DIR; };
-		D5842950232EA42300F247E6 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		D5842950232EA42300F247E6 /* httpserver.randall7.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = httpserver.randall7.c; sourceTree = "<group>"; };
+		D5842958232EB44700F247E6 /* makefile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; name = makefile; path = part2.xcodeproj/../makefile; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +58,8 @@
 		D584294F232EA42300F247E6 /* part2 */ = {
 			isa = PBXGroup;
 			children = (
-				D5842950232EA42300F247E6 /* main.c */,
+				D5842958232EB44700F247E6 /* makefile */,
+				D5842950232EA42300F247E6 /* httpserver.randall7.c */,
 			);
 			path = part2;
 			sourceTree = "<group>";
@@ -118,7 +120,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5842951232EA42300F247E6 /* main.c in Sources */,
+				D5842951232EA42300F247E6 /* httpserver.randall7.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,24 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/terrencerandall/Documents/Fall_19/ece463/Project1/part2_proj1/part2.xcodeproj">
+      location = "group:../makefile">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/terrencerandall/Documents/Fall_19/ece463/Project1/part2/part2/makefiel.h">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Examples/client.c">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Examples/select.c">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Examples/server.c">
+   </FileRef>
+   <FileRef
+      location = "group:../../part1/httpclient.randall7.c">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

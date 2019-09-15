@@ -1,0 +1,147 @@
+//
+//  main.c
+//  part2_proj1
+//
+//  Created by terrence on 9/15/19.
+//  Copyright © 2019 terrence. All rights reserved.
+//
+
+#include <sys/types.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <strings.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define LISTENQ 10
+#define MAXLINE 255
+int open_listenfd(int);
+void recieveInputs(int conn_fd, char** pathOfFile, int* shift);
+
+int main(int argc, const char * argv[]) {
+    int listenfd, connfd, port, clientlen;
+    struct sockaddr_in clientaddr;
+    struct hostent *hp;
+    char *haddrp;
+    char* buf[MAXLINE];
+    
+    
+    port =  atoi((char*)argv[1]);
+    listenfd = open_listenfd(port);
+    
+    clientlen = sizeof(clientaddr);
+    connfd = accept(listenfd, (struct sockaddr *)&clientaddr, &clientlen);
+    hp = gethostbyaddr((const char *)&clientaddr.sin_addr.s_addr, sizeof(clientaddr.sin_addr.s_addr), AF_INET);
+    haddrp = inet_ntoa(clientaddr.sin_addr);
+    
+    char* filePath = NULL;
+    int shift = -68;
+    recieveInputs(connfd, &filePath, &shift);
+    if((filePath == NULL) && (shift == -68))
+        return 0;
+    
+    FILE* fptr = NULL;
+    fptr = fopen((const char*) filePath, "r");
+    if(fptr == NULL)
+    {
+        if(errno == ){
+            
+            return 0;
+        }
+        else if(errno == ){
+         
+            return 0;
+        }
+    }
+    sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
+    write(connfd, buf, MAXLINE);
+    
+    //Now I need to find the file, "encrypt" the file, and output the encryption
+    
+    close(connfd);
+    return 0;
+}
+
+void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
+{
+    char buf[MAXLINE];
+    size_t n;
+    char* filePath = NULL;
+    char* shiftNumAsStr = NULL;
+    int shiftNum;
+    
+    char currLetter;
+    int count;
+    int offset;
+    
+    n = read(conn_fd, buf, MAXLINE);
+    char* parsed = NULL;
+    char whatIwant1[] = "get";
+    parsed = strcasestr(buf, whatIwant1);
+    if(parsed == NULL){
+        sprintf(buf, "Ineligible HTTP request\n");
+        write(conn_fd, buf, MAXLINE);
+        return;
+    }
+    
+    count = 0;
+    currLetter = buf[4];
+    offset = 4;
+    while(currLetter != ' '){
+        filePath[count] = currLetter;
+        count++;
+        currLetter = buf[count + offset];
+        if(currLetter == ' ')
+            filePath[count] = '\0';
+    }
+        
+    offset = count+1;
+    count =0;
+    while(currLetter != ' '){
+        shiftNumAsStr[count] = currLetter;
+        count++;
+        currLetter = buf[count + offset];
+        if(currLetter == ' ')
+            filePath[count] = '\0';
+    }
+    shiftNum = atoi((char*)shiftNumAsStr);
+    
+    *shift = shiftNum;
+    *pathOfFile = filePath;
+return;
+}
+
+int open_listenfd(int port)
+{
+    int listenfd, optval=1;
+    struct sockaddr_in serveraddr;
+    
+    /* Create a socket descriptor */
+    if ((listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+        return -1;
+    
+    /* Eliminates "Address already in use" error from bind. */
+    if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR,
+                   (const void *)&optval , sizeof(int)) < 0)
+        return -1;
+    
+    /* Listenfd will be an endpoint for all requests to port
+     on any IP address for this host */
+    bzero((char *) &serveraddr, sizeof(serveraddr));
+    serveraddr.sin_family = AF_INET;
+    serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serveraddr.sin_port = htons((unsigned short)port);
+    if (bind(listenfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
+        return -1;
+    
+    /* Make it a listening socket ready to accept
+     connection requests */
+    if (listen(listenfd, LISTENQ) < 0)
+        return -1;
+    
+    return listenfd;
+}
+
