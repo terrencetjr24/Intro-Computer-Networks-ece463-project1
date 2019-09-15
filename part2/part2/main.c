@@ -11,7 +11,5 @@
 int main(int argc, const char * argv[]) {
     // insert code here...
     printf("Hello, World!\n");
-    glgl;
-    glgl;
     return 0;
 }
