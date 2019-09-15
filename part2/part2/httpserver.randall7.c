@@ -15,18 +15,20 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define LISTENQ 10
 #define MAXLINE 255
 int open_listenfd(int);
 void recieveInputs(int conn_fd, char** pathOfFile, int* shift);
+void readEncryptAndOutput(int connfd, FILE* fptr, int shift);
 
 int main(int argc, const char * argv[]) {
     int listenfd, connfd, port, clientlen;
     struct sockaddr_in clientaddr;
     struct hostent *hp;
     char *haddrp;
-    char* buf[MAXLINE];
+    char buf[MAXLINE];
     
     
     port =  atoi((char*)argv[1]);
@@ -47,22 +49,33 @@ int main(int argc, const char * argv[]) {
     fptr = fopen((const char*) filePath, "r");
     if(fptr == NULL)
     {
-        if(errno == ){
-            
+        if(errno == EACCES){
+            sprintf(buf, "HTTP/1.0 403 Forbidden\r\n\r\n");
+            write(connfd, buf, MAXLINE);
+            close(connfd);
             return 0;
         }
-        else if(errno == ){
-         
+        else{
+            sprintf(buf, "HTTP/1.0 404 Not Found\r\n\r\n");
+            write(connfd, buf, MAXLINE);
+            close(connfd);
             return 0;
         }
     }
     sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
     write(connfd, buf, MAXLINE);
-    
     //Now I need to find the file, "encrypt" the file, and output the encryption
+    readEncryptAndOutput(connfd, fptr, shift);
     
+    fclose(fptr);
     close(connfd);
     return 0;
+}
+
+void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
+{
+    
+    return;
 }
 
 void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
