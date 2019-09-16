@@ -131,6 +131,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     assignIndex = 0;
     sourceIndex = 4;
     nextLetter = buf[sourceIndex];
+    printf("This is the next letter: %c\n", nextLetter);
     while(nextLetter != ' '){
         filePath[assignIndex++] = buf[sourceIndex++];
         nextLetter = buf[sourceIndex];
