@@ -146,6 +146,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
             sourceIndex++;
         }
     }
+    
+    printf("The first file path extrapolation: %s\n\n", filePath);
     nextLetter = buf[sourceIndex];
 
     while(nextLetter != ' '){
