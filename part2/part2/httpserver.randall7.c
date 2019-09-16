@@ -118,9 +118,10 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     char whatIwant[] = "GET";
     
     do{
-        n = read(conn_fd, buf, MAXLINE);//n is the number of characters plus the \r\n\r\n
+    n = read(conn_fd, buf, MAXLINE);//n is the number of characters plus the \r\n\r\n
     parsed = NULL;
     parsed = strcasestr(buf, whatIwant);
+        printf("This is what what parsed: %s", parsed);
     } while (parsed == NULL);
     
     count = 0;
