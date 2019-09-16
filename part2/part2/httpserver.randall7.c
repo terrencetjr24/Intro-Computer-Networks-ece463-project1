@@ -90,6 +90,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
     char newLetter;
     int holder;
     
+    shift = shift % 26;
     while((letter = (char)fgetc(fptr)) != EOF){
         printf("This is the character scanned: %c\n", letter);
         newLetter = letter - shift;
@@ -113,8 +114,10 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
                 write(connfd, &newLetter, 1);
                 
             }
-            else
+            else{
                 newLetter = letter - shift;
+                write(connfd, &newLetter, 1);
+            }
         }
         else{
             newLetter = letter;
