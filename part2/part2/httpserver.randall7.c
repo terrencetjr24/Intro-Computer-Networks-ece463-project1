@@ -126,7 +126,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         if(n != 0)
             break;
     } while (n == 0);
-    write(conn_fd, buf, n);
+    //write(conn_fd, buf, n);
     
     assignIndex = 0;
     sourceIndex = 4;
@@ -155,6 +155,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     
     *shift = shiftNum;
     *pathOfFile = filePath;
+    
+    printf("The values returned to main; shift is: %d\n and path is: %c", *shift, *pathOfFile);
 
     free(buf);
     free(filePath);
