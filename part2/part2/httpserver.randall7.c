@@ -137,7 +137,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         nextLetter = buf[sourceIndex];
         if(nextLetter == ' '){
             filePath[assignIndex] = '\0';
-            assignIndex++;
+            assignIndex = 0;
             sourceIndex++;
         }
     }
