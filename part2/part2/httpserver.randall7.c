@@ -115,7 +115,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     int count;
     int offset;
     
-    n = read(conn_fd, buf, MAXLINE); //n is the number of characters plus the \r\n\r\n 
+    while((n = read(conn_fd, buf, MAXLINE)) ==0)//n is the number of characters plus the \r\n\r\n
+        offset = 2-2;
     char* parsed = NULL;
     char whatIwant1[] = "get";
     parsed = strcasestr(buf, whatIwant1);
