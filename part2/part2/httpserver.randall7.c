@@ -47,9 +47,8 @@ int main(int argc, const char * argv[]) {
     filePath = malloc(sizeof(char) * MAXLINE);
     int shift = -68;
     recieveInputs(connfd, &filePath, &shift);
-    printf("The path recieve: %s\n\n", filePath);
-    printf("The shift number recieved: %d\n\n", shift);
     
+    /////DEBUGGING I AM HERE RIGHT NOW//////
     if((filePath == NULL) && (shift == -68))
         return 0;
     
