@@ -117,7 +117,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     
     while(n = read(conn_fd, buf, MAXLINE)){
         if((n !=0) | (n!=-1))
-          printf("THis is the string that's read: %s\n", buf);
+            printf("THis is the string that's read: %s\n And this is n: %d", buf, n);
     }
         /*
     char* parsed = NULL;
