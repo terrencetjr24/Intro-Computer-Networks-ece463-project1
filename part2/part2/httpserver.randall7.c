@@ -96,21 +96,21 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
             if((letter - shift) < 'A'){
                 holder = 64 - ((int)letter - shift);
                 newLetter = 'Z' - holder;
-                write(connfd, &newLetter, 1);
+                write(connfd, &newLetter, sizeof(char));
             }
             else if ( ((letter >= 'a') && (letter <= 'z')) && ((letter - shift) < 'a')){
                 holder = 96 -((int)letter - shift);
                 newLetter = 'z' - holder;
-                write(connfd, &newLetter, 1);
+                write(connfd, &newLetter, sizeof(char));
             }
             else{
                 newLetter = letter - shift;
-                write(connfd, &newLetter, 1);
+                write(connfd, &newLetter, sizeof(char));
             }
         }
         else{
             newLetter = letter;
-            write(connfd, &newLetter, 1);
+            write(connfd, &newLetter, sizeof(char));
         }
         
         printf("The character read: %c\n", letter);
@@ -142,7 +142,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         if(n != 0)
             break;
     } while (n == 0);
-    write(conn_fd, buf, n);
+    //write(conn_fd, buf, n); //Just a check, don't need this line
     
     assignIndex = 0;
     sourceIndex = 4;
