@@ -34,7 +34,7 @@ int main(int argc, const char * argv[]) {
         printf("Needs input of the desired port number\n\n");
         return EXIT_FAILURE;
     }
-    
+    while(1){
     port =  atoi((char*)argv[1]);
     listenfd = open_listenfd(port);
     
@@ -82,6 +82,7 @@ int main(int argc, const char * argv[]) {
     free(filePath);
     fclose(fptr);
     close(connfd);
+    }
     return 0;
 }
 
