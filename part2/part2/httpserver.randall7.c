@@ -85,8 +85,7 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
-void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
-{
+void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
     char letter;
     char newLetter;
     int holder;
@@ -97,7 +96,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
         sprintf(&letter, "%c", newLetter);
         write(connfd, &letter, 1);
         
-        if( (((int)letter > 64) && ((int)letter < 91)) | (((int)letter > 96) && ((int)letter < 123))){
+        if( ((letter >= 'a') && (letter <= 'z')) | ((letter >= 'A') && (letter <= 'Z'))){
             if( (((int)letter - shift) > 64) | (((int)letter - shift) > 96)){
                 newLetter = letter - shift;
                 sprintf(&letter, "%c", newLetter);
@@ -124,6 +123,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
         }
     }
 }
+
 
 void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
 {
