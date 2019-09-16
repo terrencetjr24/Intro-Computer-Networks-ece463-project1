@@ -44,6 +44,7 @@ int main(int argc, const char * argv[]) {
     haddrp = inet_ntoa(clientaddr.sin_addr);
     
     char* filePath = NULL;
+    filePath = malloc(sizeof(char) * MAXLINE);
     int shift = -68;
     recieveInputs(connfd, &filePath, &shift);
     if((filePath == NULL) && (shift == -68))
@@ -71,6 +72,7 @@ int main(int argc, const char * argv[]) {
     //Now I need to find the file, "encrypt" the file, and output the encryption
     readEncryptAndOutput(connfd, fptr, shift);
     
+    free(filePath);
     fclose(fptr);
     close(connfd);
     return 0;
