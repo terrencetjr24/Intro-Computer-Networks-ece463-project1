@@ -51,7 +51,11 @@ int main(int argc, const char * argv[]) {
     /////DEBUGGING I AM HERE RIGHT NOW//////
     if((filePath == NULL) && (shift == -68))
         return 0;
-    
+    if(filePath[0] == '.')
+        filePath++;
+    if(filePath[0] == '/')
+        filePath++;
+        
     FILE* fptr = NULL;
     fptr = fopen((const char*) filePath, "r");
     if(fptr == NULL)
