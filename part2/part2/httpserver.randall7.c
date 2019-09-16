@@ -47,6 +47,8 @@ int main(int argc, const char * argv[]) {
     filePath = malloc(sizeof(char) * MAXLINE);
     int shift = -68;
     recieveInputs(connfd, &filePath, &shift);
+    printf("The path recieve: %s\n\n", filePath);
+    printf("The shift number recieved: %d\n\n", shift);
     
     if((filePath == NULL) && (shift == -68))
         return 0;
@@ -158,10 +160,6 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     *shift = shiftNum;
     //pathOfFile = filePath;
     char* dummy = strcpy(*pathOfFile, filePath);
-    printf("The file path extrapolated: %s\n", filePath);
-    printf("The file path inside of return pointer: %s\n", *pathOfFile);
-
-    printf("These are the values to be returned: %d \n\n%s", *shift, *pathOfFile);
     
     free(buf);
     free(shiftNumAsStr);
