@@ -98,17 +98,10 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
         write(connfd, &letter, 1);
         */
         
-        if( ((letter >= 'a') && (letter <= 'z')) | ((letter >= 'A') && (letter <= 'Z'))){
-            if( ((letter - shift) >= 'a') | ((letter - shift) >= 'A')){
-                newLetter = letter - shift;
-                /*
-                sprintf(&letter, "%c", newLetter);
-                write(connfd, &letter, 1);
-                 */
-            }
-            else if ( ((letter - shift) < 'A') ){
+        if( ((letter >= 'a') && (letter <= 'z')) || ((letter >= 'A') && (letter <= 'Z'))){
+            if ( ((letter >= 'A') && (letter <= 'Z')) && ((letter - shift) < 'A') ){
                 holder = 64 - ((int)letter - shift);
-                newLetter = 'z' - holder;
+                newLetter = 'Z' - holder;
                 /*
                 sprintf(&letter, "%c", newLetter);
                 write(connfd, &letter, 1);
@@ -123,6 +116,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
                  */
             }
             else
+                newLetter = letter - shift;
                 printf("This shouldn't happen\n");
         }
         else{
