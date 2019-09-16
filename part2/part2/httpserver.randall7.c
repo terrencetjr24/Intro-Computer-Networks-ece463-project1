@@ -123,7 +123,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     parsed = strcasestr(buf, whatIwant);
     if(n!= 0)
         printf("This is what n is: %zu\n\n", n);
-    } while (n != 0);
+    } while (n == 0);
     
     count = 0;
     currLetter = buf[4];
