@@ -87,15 +87,15 @@ int main(int argc, const char * argv[]) {
 
 void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
 {
-    char buf;
+    char letter;
     char newLetter;
     //int holder;
     
-    while((buf = (char)fgetc(fptr)) != EOF){
-        printf("This is the character scanned: %c\n", buf);
-        newLetter = (char)( (int)buf - shift);
-        sprintf(buf, "%c", newLetter);
-        write(connfd, buf, 1);
+    while((letter = (char)fgetc(fptr)) != EOF){
+        printf("This is the character scanned: %c\n", letter);
+        newLetter = letter - shift;
+        sprintf(letter, "%c", newLetter);
+        write(connfd, letter, 1);
         /*
         if( (((int)buf > 64) && ((int)buf < 91)) | (((int)buf > 96) && ((int)buf < 123))){
             if( (((int)buf - shift) > 64) | (((int)buf - shift) > 96))
