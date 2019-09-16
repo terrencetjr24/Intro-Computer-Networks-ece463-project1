@@ -116,6 +116,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     int offset;
     
     n = read(conn_fd, buf, MAXLINE);
+    printf("THis is the string that's read: %s\n", buf);
+    /*
     char* parsed = NULL;
     char whatIwant1[] = "get";
     parsed = strcasestr(buf, whatIwant1);
@@ -124,6 +126,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         write(conn_fd, buf, MAXLINE);
         return;
     }
+     */
     
     count = 0;
     currLetter = buf[4];
