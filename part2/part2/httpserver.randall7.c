@@ -123,7 +123,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
             sprintf(&letter, "%c", newLetter);
             write(connfd, &letter, 1);
              */
-            printf("This is the new Letter: %c\n", newLetter);
+            newLetter = letter;
         }
         printf("This is the new Letter: %c\n", newLetter);
     }
