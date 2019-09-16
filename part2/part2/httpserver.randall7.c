@@ -114,17 +114,14 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     char currLetter;
     int count;
     int offset;
+    char* parsed;
+    char whatIwant[] = "GET";
     
-    while((n = read(conn_fd, buf, MAXLINE)) ==0)//n is the number of characters plus the \r\n\r\n
-        offset = 2-2;
-    char* parsed = NULL;
-    char whatIwant1[] = "get";
-    parsed = strcasestr(buf, whatIwant1);
-    if(parsed == NULL){
-        sprintf(buf, "Ineligible HTTP request\n");
-        write(conn_fd, buf, MAXLINE);
-        return;
-    }
+    do{
+        n = read(conn_fd, buf, MAXLINE);//n is the number of characters plus the \r\n\r\n
+    parsed = NULL;
+    parsed = strcasestr(buf, whatIwant);
+    } while (parsed == NULL);
     
     count = 0;
     currLetter = buf[4];
