@@ -124,7 +124,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         if(n != 0)
             break;
     } while (n == 0);
-    printf("This is parsed string: %s\n\n", parsed);
+    write(conn_fd, "test\n", 5);
     
     count = 0;
     currLetter = buf[4];
