@@ -48,7 +48,6 @@ int main(int argc, const char * argv[]) {
     int shift = -68;
     recieveInputs(connfd, &filePath, &shift);
     
-    /////DEBUGGING I AM HERE RIGHT NOW//////
     if((filePath == NULL) && (shift == -68))
         return 0;
     if(filePath[0] == '.')
@@ -76,6 +75,8 @@ int main(int argc, const char * argv[]) {
     sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
     write(connfd, buf, MAXLINE);
     //Now I need to find the file, "encrypt" the file, and output the encryption
+    
+    //DEBUGGING AND IM HERE RIGHT NOW////
     readEncryptAndOutput(connfd, fptr, shift);
     
     free(filePath);
