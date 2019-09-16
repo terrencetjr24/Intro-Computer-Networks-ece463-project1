@@ -131,7 +131,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     assignIndex = 0;
     sourceIndex = 4;
     nextLetter = buf[sourceIndex];
-    printf("This is the next letter: %c\n", nextLetter);
+
     while(nextLetter != ' '){
         filePath[assignIndex++] = buf[sourceIndex++];
         nextLetter = buf[sourceIndex];
@@ -142,8 +142,6 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         }
     }
     nextLetter = buf[sourceIndex];
-    printf("This is the next letter(should be num): %c\n", nextLetter);
-    printf("This is the extrapolated file path: %s\n\n", filePath);
 
     while(nextLetter != ' '){
         shiftNumAsStr[assignIndex++] = buf[sourceIndex++];
@@ -154,7 +152,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     }
     shiftNum = atoi((char*)shiftNumAsStr);
     
-    printf("This is the extrapolated shift number: %d\n\n", shiftNum);
+    printf("These are the values to be returned: %d \n%s", *shift, *pathOfFile);
     
     *shift = shiftNum;
     *pathOfFile = filePath;
