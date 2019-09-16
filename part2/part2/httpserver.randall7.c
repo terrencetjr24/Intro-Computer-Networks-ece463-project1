@@ -71,7 +71,7 @@ int main(int argc, const char * argv[]) {
         }
     }
     sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
-    write(connfd, buf, MAXLINE);
+    write(connfd, buf, strlen(buf));
     readEncryptAndOutput(connfd, fptr, shift);
     
     free(filePath);
