@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../../../Examples/select.c">
+   </FileRef>
+   <FileRef
+      location = "group:../../../Examples/server.c">
+   </FileRef>
+   <FileRef
+      location = "group:../../part2/part2/httpserver.randall7.c">
+   </FileRef>
+   <FileRef
+      location = "self:part3.xcodeproj">
+   </FileRef>
+</Workspace>
