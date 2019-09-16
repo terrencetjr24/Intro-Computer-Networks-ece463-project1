@@ -75,16 +75,16 @@ int main(int argc, const char * argv[]) {
     readEncryptAndOutput(connfd, fptr, shift);
     
     free(filePath);
-    fclose(fptr);
+        fclose(fptr);
     close(connfd);
     }
     return 0;
 }
 
 void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
-    char letter;
-    char newLetter;
-    int holder;
+    char letter = 'p';
+    char newLetter = 'p';
+    int holder = 0;
     
     shift = shift % 26;
     while((letter = (char)fgetc(fptr)) != EOF){
@@ -103,12 +103,12 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
         else{
             newLetter = letter;
         }
-        //wait(NULL);
-        //wait(NULL);
-        //wait(NULL);
-        //wait(NULL);
+        wait(NULL);
+        wait(NULL);
+        wait(NULL);
+        wait(NULL);
         sprintf(&letter, "%c", newLetter);
-        write(connfd, &letter, strlen(letter));
+        write(connfd, &letter, 1);
         
         //printf("The character read: %c\n", letter);  //Just for testing on the server side
         //printf("The character shifted; %c\n", newLetter);
