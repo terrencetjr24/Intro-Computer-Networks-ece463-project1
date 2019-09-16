@@ -115,9 +115,11 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     int count;
     int offset;
     
-    n = read(conn_fd, buf, MAXLINE);
-    printf("THis is the string that's read: %s\n", buf);
-    /*
+    while(n = read(conn_fd, buf, MAXLINE)){
+        if((n !=0) | (n!=-1))
+          printf("THis is the string that's read: %s\n", buf);
+    }
+        /*
     char* parsed = NULL;
     char whatIwant1[] = "get";
     parsed = strcasestr(buf, whatIwant1);
