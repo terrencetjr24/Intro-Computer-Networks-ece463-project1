@@ -113,9 +113,9 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     shiftNumAsStr = malloc(sizeof(char) * MAXLINE);
     int shiftNum;
     
-    char currLetter;
-    int count;
-    int offset;
+    char nextLetter;
+    int assignIndex;
+    int sourceIndex;
     char* parsed;
     char whatIwant[] = "GET";
     
@@ -128,26 +128,26 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     } while (n == 0);
     write(conn_fd, buf, n);
     
-    count = 0;
-    currLetter = buf[4];
-    offset = 4;
-    while(currLetter != ' '){
-        filePath[count] = currLetter;
-        count++;
-        currLetter = buf[count + offset];
-        if(currLetter == ' ')
-            filePath[count] = '\0';
+    assignIndex = 0;
+    sourceIndex = 4;
+    nextLetter = buf[sourceIndex];
+    while(nextLetter != ' '){
+        filePath[assignIndex++] = buf[sourceIndex++];
+        nextLetter = buf[sourceIndex];
+        if(nextLetter == ' '){
+            filePath[assignIndex] = '\0';
+            assignIndex++;
+            sourceIndex++;
+        }
     }
     printf("This is the extrapolated file path: %s\n\n", filePath);
-        
-    offset = count;
-    count =0;
-    while(currLetter != ' '){
-        shiftNumAsStr[count] = currLetter;
-        count++;
-        currLetter = buf[count + offset];
-        if(currLetter == ' ')
-            filePath[count] = '\0';
+
+    while(nextLetter != ' '){
+        shiftNumAsStr[assignIndex++] = buf[sourceIndex++];
+        nextLetter = buf[sourceIndex];
+        if(nextLetter == ' '){
+            filePath[assignIndex] = '\0';
+        }
     }
     shiftNum = atoi((char*)shiftNumAsStr);
     
