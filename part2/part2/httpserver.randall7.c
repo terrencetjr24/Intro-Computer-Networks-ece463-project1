@@ -85,8 +85,8 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
     char letter = 'p';
     char newLetter = 'p';
     int holder = 0;
-    
     shift = shift % 26;
+    
     while((letter = (char)fgetc(fptr)) != EOF){
         if( ((letter >= 'a') && (letter <= 'z')) || ((letter >= 'A') && (letter <= 'Z'))){
             if((letter - shift) < 'A'){
@@ -103,13 +103,9 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
         else{
             newLetter = letter;
         }
-        wait(NULL);
-        wait(NULL);
-        wait(NULL);
-        wait(NULL);
+        
         sprintf(&letter, "%c", newLetter);
         write(connfd, &letter, 1);
-        
         //printf("The character read: %c\n", letter);  //Just for testing on the server side
         //printf("The character shifted; %c\n", newLetter);
     }
