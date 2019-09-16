@@ -89,33 +89,39 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
 {
     char letter;
     char newLetter;
-    //int holder;
+    int holder;
     
     while((letter = (char)fgetc(fptr)) != EOF){
         printf("This is the character scanned: %c\n", letter);
         newLetter = letter - shift;
         sprintf(&letter, "%c", newLetter);
         write(connfd, &letter, 1);
-        /*
-        if( (((int)buf > 64) && ((int)buf < 91)) | (((int)buf > 96) && ((int)buf < 123))){
-            if( (((int)buf - shift) > 64) | (((int)buf - shift) > 96))
-                write(connfd, buf-shift, 1);
-            else if ( (((int)buf - shift) <= 64) ){
-                holder = 64 - ((int)buf - shift);
-                buf = 'z';
-                write(connfd, buf-holder, 1);
+        
+        if( (((int)letter > 64) && ((int)letter < 91)) | (((int)letter > 96) && ((int)letter < 123))){
+            if( (((int)letter - shift) > 64) | (((int)letter - shift) > 96)){
+                newLetter = letter - shift;
+                sprintf(&letter, "%c", newLetter);
+                write(connfd, &letter, 1);
             }
-            else if ( (((int)buf - shift) <= 96)){
-                holder = 96 -((int)buf - shift);
-                buf = 'Z';
-                write(connfd, buf-holder, 1);
+            else if ( (((int)letter - shift) <= 64) ){
+                holder = 64 - ((int)letter - shift);
+                newLetter = 'z' - holder;
+                sprintf(&letter, "%c", newLetter);
+                write(connfd, &letter, 1);
+            }
+            else if ( (((int)letter - shift) <= 96)){
+                holder = 96 -((int)letter - shift);
+                newLetter = 'Z' - holder;
+                sprintf(&letter, "%c", newLetter);
+                write(connfd, &letter, 1);
             }
             else
                 printf("This shouldn't happen\n");
         }
-        else
-            write(connfd, buf, 1);
-        */
+        else{
+            sprintf(&letter, "%c", newLetter);
+            write(connfd, &letter, 1);
+        }
     }
 }
 
