@@ -140,7 +140,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     }
     printf("This is the extrapolated file path: %s\n\n", filePath);
         
-    offset = count+1;
+    offset = count;
     count =0;
     while(currLetter != ' '){
         shiftNumAsStr[count] = currLetter;
