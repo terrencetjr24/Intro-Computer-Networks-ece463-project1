@@ -86,31 +86,38 @@ int main(int argc, const char * argv[]) {
 }
 
 void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
-    char letter;
-    char newLetter;
+    char letter[MAXLINE] = {0};
+    char newLetter[MAXLINE] = {0};
     int holder;
+    int i;
+    long int bytesRead;
     
     shift = shift % 26;
-    while((letter = (char)fgetc(fptr)) != EOF){
-        if( ((letter >= 'a') && (letter <= 'z')) || ((letter >= 'A') && (letter <= 'Z'))){
-            if((letter - shift) < 'A'){
-                holder = 64 - ((int)letter - shift);
-                newLetter = 'Z' - holder;
+    //while((letter = (char)fgetc(fptr)) != EOF){
+    while((bytesRead = read(connfd, letter, MAXLINE -1))){
+        for(i=0; i<= bytesRead; i++) {
+            if( ((letter[i] >= 'a') && (letter[i] <= 'z')) || ((letter[i] >= 'A') && (letter[i] <= 'Z'))){
+                if((letter[i] - shift) < 'A'){
+                    holder = 64 - ((int)letter[i] - shift);
+                    newLetter[i] = 'Z' - holder;
+                }
+                else if ( ((letter[i] >= 'a') && (letter[i] <= 'z')) && ((letter[i] - shift) < 'a')){
+                    holder = 96 -((int)letter - shift);
+                    newLetter[i] = 'z' - holder;
+                }
+                else
+                    newLetter[i] = letter[i] - shift;
             }
-            else if ( ((letter >= 'a') && (letter <= 'z')) && ((letter - shift) < 'a')){
-                holder = 96 -((int)letter - shift);
-                newLetter = 'z' - holder;
+            else{
+                newLetter[i] = letter[i];
             }
-            else
-                newLetter = letter - shift;
         }
-        else{
-            newLetter = letter;
+        for(i = 0; i< bytesRead; i++){
+            write(connfd, &(newLetter[i]), sizeof(char));
+            
+            printf("The character read: %c\n", letter[i]);
+            printf("The character shifted; %c\n", newLetter[i]);
         }
-        write(connfd, &newLetter, sizeof(char));
-        
-        printf("The character read: %c\n", letter);
-        printf("The character shifted; %c\n", newLetter);
     }
 }
 

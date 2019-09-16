@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../../../Examples/server.c">
+      location = "group:../../part1/httpclient.randall7.c">
    </FileRef>
    <FileRef
       location = "self:">
