@@ -121,8 +121,6 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     n = read(conn_fd, buf, MAXLINE);//n is the number of characters plus the \r\n\r\n
     parsed = NULL;
     parsed = strcasestr(buf, whatIwant);
-    if(n!= 0)
-        printf("This is what n is: %zu\n\n", n);
     } while (n == 0);
     
     count = 0;
@@ -135,6 +133,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         if(currLetter == ' ')
             filePath[count] = '\0';
     }
+    printf("This is the extrapolated file path: %s\n\n", filePath);
         
     offset = count+1;
     count =0;
@@ -146,6 +145,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
             filePath[count] = '\0';
     }
     shiftNum = atoi((char*)shiftNumAsStr);
+    
+    printf("This is the extrapolated shitt number: %d\n\n", shiftNum);
     
     *shift = shiftNum;
     *pathOfFile = filePath;
