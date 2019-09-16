@@ -88,10 +88,13 @@ int main(int argc, const char * argv[]) {
 void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
 {
     char buf;
-    int holder;
+    char newLetter;
+    //int holder;
     
     while((buf = (char)fgetc(fptr)) != EOF){
         printf("This is the character scanned: %c\n", buf);
+        newLetter = (char)( (int)buf - shift);
+        /*
         if( (((int)buf > 64) && ((int)buf < 91)) | (((int)buf > 96) && ((int)buf < 123))){
             if( (((int)buf - shift) > 64) | (((int)buf - shift) > 96))
                 write(connfd, buf-shift, 1);
@@ -110,6 +113,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
         }
         else
             write(connfd, buf, 1);
+        */
     }
 }
 
