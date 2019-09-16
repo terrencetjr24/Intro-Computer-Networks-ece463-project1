@@ -94,8 +94,8 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
     while((letter = (char)fgetc(fptr)) != EOF){
         printf("This is the character scanned: %c\n", letter);
         newLetter = letter - shift;
-        sprintf(letter, "%c", newLetter);
-        write(connfd, letter, 1);
+        sprintf(&letter, "%c", newLetter);
+        write(connfd, &letter, 1);
         /*
         if( (((int)buf > 64) && ((int)buf < 91)) | (((int)buf > 96) && ((int)buf < 123))){
             if( (((int)buf - shift) > 64) | (((int)buf - shift) > 96))
