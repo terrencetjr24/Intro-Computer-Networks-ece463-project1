@@ -54,7 +54,7 @@ int main(int argc, const char * argv[]) {
         filePath++;
     if(filePath[0] == '/')
         filePath++;
-        
+    
     FILE* fptr = NULL;
     fptr = fopen((const char*) filePath, "r");
     if(fptr == NULL)
@@ -91,6 +91,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
     int holder;
     
     while(fscanf(fptr, "%c", &buf)){
+        printf("This is the character scanned: %c\n", buf);
         if( (((int)buf > 64) && ((int)buf < 91)) | (((int)buf > 96) && ((int)buf < 123))){
             if( (((int)buf - shift) > 64) | (((int)buf - shift) > 96))
                 write(connfd, buf-shift, 1);
