@@ -147,14 +147,13 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         }
     }
     
-    printf("The first file path extrapolation: %s\n\n", filePath);
     nextLetter = buf[sourceIndex];
 
     while(nextLetter != ' '){
         shiftNumAsStr[assignIndex++] = buf[sourceIndex++];
         nextLetter = buf[sourceIndex];
         if(nextLetter == ' '){
-            filePath[assignIndex] = '\0';
+            shiftNumAsStr[assignIndex] = '\0';
         }
     }
     shiftNum = atoi((char*)shiftNumAsStr);
