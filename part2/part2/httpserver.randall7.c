@@ -108,6 +108,8 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
             newLetter = letter;
         }
         wait(NULL);
+        wait(NULL);
+        wait(NULL);
         sprintf(&letter, "%c", newLetter);
         write(connfd, &letter, 1);
         
