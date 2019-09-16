@@ -126,11 +126,12 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         if(n != 0)
             break;
     } while (n == 0);
-    //write(conn_fd, buf, n);
+    write(conn_fd, buf, n);
     
     assignIndex = 0;
     sourceIndex = 4;
     nextLetter = buf[sourceIndex];
+    printf("This is the next letter: %c\n", nextLetter);
     while(nextLetter != ' '){
         filePath[assignIndex++] = buf[sourceIndex++];
         nextLetter = buf[sourceIndex];
@@ -141,6 +142,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         }
     }
     nextLetter = buf[sourceIndex];
+    printf("This is the next letter(should be num): %c\n", nextLetter);
+    printf("This is the extrapolated file path: %s\n\n", filePath);
 
     while(nextLetter != ' '){
         shiftNumAsStr[assignIndex++] = buf[sourceIndex++];
@@ -151,12 +154,10 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     }
     shiftNum = atoi((char*)shiftNumAsStr);
     
-    printf("THis is the value of the shift number: %d \n\n", shiftNum);
+    printf("This is the extrapolated shift number: %d\n\n", shiftNum);
     
     *shift = shiftNum;
     *pathOfFile = filePath;
-    
-    //printf("The values returned to main; shift is: %d\n and path is: %s", *shift, *pathOfFile);
 
     free(buf);
     free(filePath);
