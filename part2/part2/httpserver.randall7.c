@@ -99,7 +99,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
         */
         
         if( ((letter >= 'a') && (letter <= 'z')) || ((letter >= 'A') && (letter <= 'Z'))){
-            if ( ((letter >= 'A') && (letter <= 'Z')) && ((letter - shift) < 'A') ){
+            if ( /*((letter >= 'A') && (letter <= 'Z')) && */ ((letter - shift) < 'A') ){
                 holder = 64 - ((int)letter - shift);
                 newLetter = 'Z' - holder;
                 /*
@@ -117,7 +117,6 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
             }
             else
                 newLetter = letter - shift;
-                printf("This shouldn't happen\n");
         }
         else{
             /*
