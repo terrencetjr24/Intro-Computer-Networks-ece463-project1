@@ -126,7 +126,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
         if(n != 0)
             break;
     } while (n == 0);
-    write(conn_fd, "test\n", 5);
+    write(conn_fd, buf, n);
     
     count = 0;
     currLetter = buf[4];
@@ -151,7 +151,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     }
     shiftNum = atoi((char*)shiftNumAsStr);
     
-    printf("This is the extrapolated shitt number: %d\n\n", shiftNum);
+    printf("This is the extrapolated shift number: %d\n\n", shiftNum);
     
     *shift = shiftNum;
     *pathOfFile = filePath;
