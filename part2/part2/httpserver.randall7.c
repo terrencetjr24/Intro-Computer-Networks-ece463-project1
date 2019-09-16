@@ -34,10 +34,10 @@ int main(int argc, const char * argv[]) {
         printf("Needs input of the desired port number\n\n");
         return EXIT_FAILURE;
     }
-    while(1){
+    
     port =  atoi((char*)argv[1]);
     listenfd = open_listenfd(port);
-    
+    while(1){
     clientlen = sizeof(clientaddr);
     connfd = accept(listenfd, (struct sockaddr *)&clientaddr, &clientlen);
     hp = gethostbyaddr((const char *)&clientaddr.sin_addr.s_addr, sizeof(clientaddr.sin_addr.s_addr), AF_INET);
@@ -81,8 +81,8 @@ int main(int argc, const char * argv[]) {
     
     free(filePath);
     fclose(fptr);
-    close(connfd);
     }
+    close(connfd);
     return 0;
 }
 
