@@ -141,6 +141,8 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
             sourceIndex++;
         }
     }
+    
+    printf("This is the next letter(should be num): %c\n", nextLetter);
     printf("This is the extrapolated file path: %s\n\n", filePath);
 
     while(nextLetter != ' '){
