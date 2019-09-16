@@ -151,10 +151,12 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     }
     shiftNum = atoi((char*)shiftNumAsStr);
     
+    printf("THis is the value of the shift number: %d \n\n", shiftNum);
+    
     *shift = shiftNum;
     *pathOfFile = filePath;
     
-    printf("The values returned to main; shift is: %d\n and path is: %s", *shift, *pathOfFile);
+    //printf("The values returned to main; shift is: %d\n and path is: %s", *shift, *pathOfFile);
 
     free(buf);
     free(filePath);
