@@ -114,7 +114,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     char currLetter;
     int count;
     int offset;
-    char* parsed;
+    char* parsed[100] = {0};
     char whatIwant[] = "GET";
     
     do{
