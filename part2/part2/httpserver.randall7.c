@@ -105,10 +105,12 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
 
 void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
 {
-    char buf[MAXLINE];
+    char* buf = malloc(sizeof(char) * MAXLINE);
     size_t n;
     char* filePath = NULL;
+    filePath = malloc(sizeof(char) * MAXLINE);
     char* shiftNumAsStr = NULL;
+    shiftNumAsStr = malloc(sizeof(char) * MAXLINE);
     int shiftNum;
     
     char currLetter;
@@ -153,7 +155,10 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     
     *shift = shiftNum;
     *pathOfFile = filePath;
-return;
+
+    free(buf);
+    free(filePath);
+    free(shiftNumAsStr);
 }
 
 int open_listenfd(int port){
