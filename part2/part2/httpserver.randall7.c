@@ -126,8 +126,11 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
                 printf("This shouldn't happen\n");
         }
         else{
+            /*
             sprintf(&letter, "%c", newLetter);
             write(connfd, &letter, 1);
+             */
+            printf("This is the new Letter: %c\n", newLetter);
         }
         printf("This is the new Letter: %c\n", newLetter);
     }
