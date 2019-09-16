@@ -115,7 +115,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     int count;
     int offset;
     
-    while(n = read(conn_fd, buf, MAXLINE)){
+    n = read(conn_fd, buf, MAXLINE); //n is the number of characters plus the \r\n\r\n 
     char* parsed = NULL;
     char whatIwant1[] = "get";
     parsed = strcasestr(buf, whatIwant1);
@@ -152,8 +152,7 @@ void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
 return;
 }
 
-int open_listenfd(int port)
-{
+int open_listenfd(int port){
     int listenfd, optval=1;
     struct sockaddr_in serveraddr;
     
