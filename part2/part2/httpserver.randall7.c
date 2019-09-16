@@ -29,15 +29,13 @@ int main(int argc, const char * argv[]) {
     struct hostent *hp;
     char *haddrp;
     char buf[MAXLINE];
-    
-    if(argc != 2){
-        printf("Needs input of the desired port number\n\n");
-        return EXIT_FAILURE;
-    }
+    if(argc != 2){printf("Needs input of the desired port number\n\n");return EXIT_FAILURE;}
     
     port =  atoi((char*)argv[1]);
     listenfd = open_listenfd(port);
-    while(1){
+    
+    while(1)
+    {
     clientlen = sizeof(clientaddr);
     connfd = accept(listenfd, (struct sockaddr *)&clientaddr, &clientlen);
     hp = gethostbyaddr((const char *)&clientaddr.sin_addr.s_addr, sizeof(clientaddr.sin_addr.s_addr), AF_INET);
@@ -74,15 +72,12 @@ int main(int argc, const char * argv[]) {
     }
     sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
     write(connfd, buf, MAXLINE);
-    //Now I need to find the file, "encrypt" the file, and output the encryption
-    
-    //DEBUGGING AND IM HERE RIGHT NOW////
     readEncryptAndOutput(connfd, fptr, shift);
     
     free(filePath);
     fclose(fptr);
-    }
     close(connfd);
+    }
     return 0;
 }
 
