@@ -30,6 +30,10 @@ int main(int argc, const char * argv[]) {
     char *haddrp;
     char buf[MAXLINE];
     
+    if(argc != 2){
+        printf("Needs input of the desired port number\n\n");
+        return EXIT_FAILURE;
+    }
     
     port =  atoi((char*)argv[1]);
     listenfd = open_listenfd(port);
@@ -97,9 +101,6 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift)
         else
             write(connfd, buf, 1);
     }
-    
-    
-    return;
 }
 
 void recieveInputs(int conn_fd, char** pathOfFile, int* shift)
