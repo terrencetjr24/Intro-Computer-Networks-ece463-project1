@@ -83,8 +83,8 @@ int main(int argc, const char * argv[]) {
     //parentDone:
         free(filePath);
         close(connfd);
-        if(parent == 0)
-            goto childQuit;
+        //if(parent == 0)
+            //goto childQuit;
     }
 //childQuit:
     return 0;
