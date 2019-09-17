@@ -48,8 +48,8 @@ int main(int argc, const char * argv[]) {
         
         int parent;
         parent = recieveInputs(connfd, &filePath, &shift);
-        if(parent != 0)
-            goto parentDone;
+        //if(parent != 0)
+            //goto parentDone;
         if((filePath == NULL) && (shift == -68))
             return 0;
         if(filePath[0] == '.')
@@ -80,13 +80,13 @@ int main(int argc, const char * argv[]) {
         readEncryptAndOutput(connfd, fptr, shift);
 
         fclose(fptr);
-    parentDone:
+    //parentDone:
         free(filePath);
         close(connfd);
         if(parent == 0)
             goto childQuit;
     }
-childQuit:
+//childQuit:
     return 0;
 }
 
@@ -115,7 +115,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
         
         sprintf(&letter, "%c", newLetter);
         write(connfd, &letter, 1);
-        
+
         //printf("The character read: %c\n", letter);  //Just for testing on the server side
         //printf("The character shifted; %c\n", newLetter);
     }
@@ -147,9 +147,9 @@ int recieveInputs(int conn_fd, char** pathOfFile, int* shift)
             break;
     } while (n == 0);
     //write(conn_fd, buf, n); //Just a check, don't need this line
-    parent = fork();
-    if(parent != 0)
-        return parent;
+    //parent = fork();
+    //if(parent != 0)
+        //return parent;
     assignIndex = 0;
     sourceIndex = 4;
     nextLetter = buf[sourceIndex];
