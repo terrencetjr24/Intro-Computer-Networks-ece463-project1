@@ -114,8 +114,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
         }
         
         sprintf(&letter, "%c", newLetter);
-        if(!(write(connfd, &letter, 1)))
-            return;
+        write(connfd, &letter, 1);
         
         //printf("The character read: %c\n", letter);  //Just for testing on the server side
         //printf("The character shifted; %c\n", newLetter);
