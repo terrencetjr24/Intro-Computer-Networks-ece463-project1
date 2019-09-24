@@ -33,7 +33,7 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift);
 int main(int argc, const char * argv[]) {
     int httpListenfd, httpConnfd, httpClientlen, httpPort;
     struct sockaddr_in httpClientaddr;
-    struct sockaddr pingClientaddr;
+    struct sockaddr_in pingClientaddr;
     struct hostent *http_hp, *ping_hp;  //Both of these should be pointers just not too sure if this works
     char *http_haddrp, *ping_haddrp;    //Same here, just not sure
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
@@ -110,39 +110,23 @@ int main(int argc, const char * argv[]) {
     else{ //This is where I don my ping thing
         //PING
         pingClientlen = sizeof(pingClientaddr);
+        char hostname[NI_MAXHOST];
+        memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
+        pingClientaddr.sin_family = AF_INET;
         /*
          ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
          ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
-         */
+        */
         n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-        buf[MAXLINE] = '\0';
-        printf("Info recieved:\n %s\n", buf);
-        struct sockaddr_in host;    /* input */
-        socklen_t len;         /* input */
-        char hbuf[NI_MAXHOST];
+        buf[n] = '\0';
+        pingClientaddr.sin_addr.s_addr = inet_addr(buf);
         
-        memset(&host, 0, sizeof(struct sockaddr_in));
-        
-        /* For IPv4*/
-        host.sin_family = AF_INET;
-        host.sin_addr.s_addr = inet_addr(buf);
-        len = sizeof(struct sockaddr_in);
-        
-        if (getnameinfo((struct sockaddr *) &host, len, hbuf, sizeof(hbuf),
-                        NULL, 0, NI_NAMEREQD)) {
+        if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
             printf("could not resolve hostname\n");
         }
-
-    /*
-        struct hostent host;
-        host = gethostbyaddr(<#const void *#>, <#socklen_t#>, <#int#>)
-     */
-        /*
-        for(i = 0; i< MAXLINE; i++)
-            printf("%c\n", buf[i]);
-         */
-        //sendto(udpfd, udpBuf, sizeof(udpBuf), 0, (struct sockaddr*) &udpClientAddr, sizeof(udpClientAddr)
-        sendto(pingfd, hbuf, strlen(hbuf), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+        puts(hostname);
+        //I have the hostname, but I also want to send some number +1 as well
+        sendto(pingfd, hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
     }
 }
 }
