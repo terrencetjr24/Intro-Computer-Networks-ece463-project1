@@ -106,8 +106,8 @@ int main(int argc, const char * argv[]) {
         parentDone:
             free(filePath);
             close(httpConnfd);
-            if(parent == 0)
-                goto childQuit;
+            //if(parent == 0)
+                //goto childQuit;
         }
     else{ //This is where I don my ping thing
         //PING
