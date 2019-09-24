@@ -55,81 +55,83 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-        for(n=0; n<MAXLINE; n++)
-            buf[n] = 0;
-        FD_SET(httpListenfd, &fd_list);
-        FD_SET(pingfd, &fd_list);
+            for(n=0; n<MAXLINE; n++)
+                buf[n] = 0;
+            FD_SET(httpListenfd, &fd_list);
+            FD_SET(pingfd, &fd_list);
         
-        if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+            if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
         
-        if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
-            //HTTP
-            httpClientlen = sizeof(httpClientaddr);
-            httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
-            http_hp = gethostbyaddr((const char *)&httpClientaddr.sin_addr.s_addr, sizeof(httpClientaddr.sin_addr.s_addr), AF_INET);
-            http_haddrp = inet_ntoa(httpClientaddr.sin_addr);
-            char* filePath = NULL;
-            filePath = malloc(sizeof(char) * MAXLINE);
-            int shift = -68;
-            int parent;
-            parent = recieveInputs(httpConnfd, &filePath, &shift);
-            if(parent != 0)
-                goto parentDone;
-            if((filePath == NULL) && (shift == -68))
-                return 0;
-            if(filePath[0] == '.')
-                filePath++;
-            if(filePath[0] == '/')
-                filePath++;
-            
-            FILE* fptr = NULL;
-            fptr = fopen((const char*) filePath, "r");
-            if(fptr == NULL)
-            {
-                if(errno == EACCES){
-                    sprintf(buf, "HTTP/1.0 403 Forbidden\r\n\r\n");
-                    write(httpConnfd, buf, MAXLINE);
-                    close(httpConnfd);return 0;
+            if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
+                //HTTP
+                httpClientlen = sizeof(httpClientaddr);
+                httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
+                http_hp = gethostbyaddr((const char *)&httpClientaddr.sin_addr.s_addr, sizeof(httpClientaddr.sin_addr.s_addr), AF_INET);
+                http_haddrp = inet_ntoa(httpClientaddr.sin_addr);
+                char* filePath = NULL;
+                filePath = malloc(sizeof(char) * MAXLINE);
+                int shift = -68;
+                int parent;
+                parent = recieveInputs(httpConnfd, &filePath, &shift);
+                if(parent != 0)
+                    goto parentDone;
+                if((filePath == NULL) && (shift == -68))
+                    return 0;
+                if(filePath[0] == '.')
+                    filePath++;
+                if(filePath[0] == '/')
+                    filePath++;
+                
+                FILE* fptr = NULL;
+                fptr = fopen((const char*) filePath, "r");
+                if(fptr == NULL)
+                {
+                    if(errno == EACCES){
+                        sprintf(buf, "HTTP/1.0 403 Forbidden\r\n\r\n");
+                        write(httpConnfd, buf, MAXLINE);
+                        close(httpConnfd);return 0;
+                    }
+                    else{
+                        sprintf(buf, "HTTP/1.0 404 Not Found\r\n\r\n");
+                        write(httpConnfd, buf, MAXLINE);
+                        close(httpConnfd);return 0;
+                    }
                 }
-                else{
-                    sprintf(buf, "HTTP/1.0 404 Not Found\r\n\r\n");
-                    write(httpConnfd, buf, MAXLINE);
-                    close(httpConnfd);return 0;
-                }
+                sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
+                write(httpConnfd, buf, strlen(buf));
+                readEncryptAndOutput(httpConnfd, fptr, shift);
+                fclose(fptr);
+            parentDone:
+                free(filePath);
+                close(httpConnfd);
+                if(parent == 0) //if this is the child process, I want it to quit
+                    return 0;
             }
-            sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
-            write(httpConnfd, buf, strlen(buf));
-            readEncryptAndOutput(httpConnfd, fptr, shift);
-            fclose(fptr);
-        parentDone:
-            free(filePath);
-            close(httpConnfd);
-            if(parent == 0) //if this is the child process, I want it to quit
-                return 0;
+        else{ //This is where I don my ping thing
+            //PING
+            pingClientlen = sizeof(pingClientaddr);
+            char hostname[NI_MAXHOST];
+            memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
+            pingClientaddr.sin_family = AF_INET;
+            /*
+             ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
+             ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
+            */
+            //n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            n = read(pingfd, buf, MAXLINE);
+            buf[MAXLINE-1] = '\0';
+            puts(buf);
+            //buf[n] = '\0';
+            pingClientaddr.sin_addr.s_addr = inet_addr(buf);
+            
+            if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
+                printf("could not resolve hostname\n");
+            }
+            puts(hostname);
+            //I have the hostname, but I also want to send some number +1 as well
+            sendto(pingfd, (const char *)hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
         }
-    else{ //This is where I don my ping thing
-        //PING
-        pingClientlen = sizeof(pingClientaddr);
-        char hostname[NI_MAXHOST];
-        memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
-        pingClientaddr.sin_family = AF_INET;
-        /*
-         ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
-         ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
-        */
-        n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-        buf[n] = '\0';
-        pingClientaddr.sin_addr.s_addr = inet_addr(buf);
-        
-        if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
-            printf("could not resolve hostname\n");
-        }
-        puts(hostname);
-        //I have the hostname, but I also want to send some number +1 as well
-        sendto(pingfd, (const char *)hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
-        close(pingfd);
     }
-}
 }
 
 int ping_setup(int port){
