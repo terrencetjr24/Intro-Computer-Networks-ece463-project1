@@ -118,12 +118,14 @@ int main(int argc, const char * argv[]) {
              ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
              ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
             */
+            
+            
+            //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
+            
+            
             n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-            buf[MAXLINE] = '\0';
-            n = recvfrom(pingfd, buf2, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-            buf2[MAXLINE] = '\0';
+            buf[n] = '\0';
             puts(buf);
-            puts(buf2);
             //buf[n] = '\0';
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             
