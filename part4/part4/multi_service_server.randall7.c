@@ -119,9 +119,9 @@ int main(int argc, const char * argv[]) {
              ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
             */
             n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-            buf[n] = '\0';
+            buf[MAXLINE] = '\0';
             n = recvfrom(pingfd, buf2, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-            buf2[n] = '\0';
+            buf2[MAXLINE] = '\0';
             puts(buf);
             puts(buf2);
             //buf[n] = '\0';
