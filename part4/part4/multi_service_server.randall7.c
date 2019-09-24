@@ -131,9 +131,7 @@ int main(int argc, const char * argv[]) {
                         NULL, 0, NI_NAMEREQD)) {
             printf("could not resolve hostname\n");
         }
-        else {
-            printf("host=%s\n", hbuf);
-        }
+
     /*
         struct hostent host;
         host = gethostbyaddr(<#const void *#>, <#socklen_t#>, <#int#>)
@@ -142,7 +140,7 @@ int main(int argc, const char * argv[]) {
         for(i = 0; i< MAXLINE; i++)
             printf("%c\n", buf[i]);
          */
-        sendto(pingfd, (const char *)buf, strlen(buf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
+        sendto(pingfd, (const char *)hbuf, strlen(hbuf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
     }
 }
 }
