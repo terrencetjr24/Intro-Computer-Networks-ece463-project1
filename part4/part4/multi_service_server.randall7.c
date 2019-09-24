@@ -227,9 +227,9 @@ int recieveInputs(int conn_fd, char** pathOfFile, int* shift)
             break;
     } while (n == 0);
     //write(conn_fd, buf, n); //Just a check, don't need this line
-    //parent = fork();
-    //if(parent != 0)
-    //return parent;
+    parent = fork();
+    if(parent != 0)
+        return parent;
     assignIndex = 0;
     sourceIndex = 4;
     nextLetter = buf[sourceIndex];
