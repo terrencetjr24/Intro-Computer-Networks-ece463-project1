@@ -141,7 +141,8 @@ int main(int argc, const char * argv[]) {
         for(i = 0; i< MAXLINE; i++)
             printf("%c\n", buf[i]);
          */
-        sendto(pingfd, (const char *)hbuf, strlen(hbuf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
+        //sendto(udpfd, udpBuf, sizeof(udpBuf), 0, (struct sockaddr*) &udpClientAddr, sizeof(udpClientAddr)
+        sendto(pingfd, hbuf, strlen(hbuf), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
     }
 }
 }
