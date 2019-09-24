@@ -23,6 +23,7 @@
 
 #define LISTENQ 10
 #define MAXLINE 255
+#define MAX_INT 2147483645
 
 int http_open_listenfd(int);
 int ping_setup(int);
@@ -55,13 +56,13 @@ int main(int argc, const char * argv[]) {
     FD_ZERO(&reads_fds);
     FD_SET(httpListenfd, &master);
     FD_SET(pingfd, &master);
-    fdmax = httpListenfd;
+    //fdmax = httpListenfd;
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
         reads_fds = master;
         
-        if((select(fdmax+1, &reads_fds, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+        if((select(MAX_INT, &reads_fds, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
         
         if(FD_ISSET(httpListenfd, &master)){ //This is for a http connection
             //HTTP
