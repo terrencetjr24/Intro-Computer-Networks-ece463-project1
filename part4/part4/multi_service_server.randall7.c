@@ -115,7 +115,8 @@ int main(int argc, const char * argv[]) {
          ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
          */
         n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-        buf[n] = '\0';
+        buf[MAXLINE] = '\0';
+        printf("Info recieved:\n %s\n", buf);
         struct sockaddr_in host;    /* input */
         socklen_t len;         /* input */
         char hbuf[NI_MAXHOST];
