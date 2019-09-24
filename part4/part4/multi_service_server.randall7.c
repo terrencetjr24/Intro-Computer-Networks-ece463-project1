@@ -133,7 +133,7 @@ int main(int argc, const char * argv[]) {
         }
         else {
             printf("host=%s\n", hbuf);
-        
+        }
     /*
         struct hostent host;
         host = gethostbyaddr(<#const void *#>, <#socklen_t#>, <#int#>)
