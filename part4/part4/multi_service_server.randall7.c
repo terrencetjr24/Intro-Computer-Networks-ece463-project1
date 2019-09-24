@@ -7,6 +7,8 @@
 //
 
 #include <sys/types.h>
+#include <sys/select.h>
+#include <unistd.h>
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -16,6 +18,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #define LISTENQ 10
 #define MAXLINE 255
@@ -27,107 +31,133 @@ void readEncryptAndOutput(int connfd, FILE* fptr, int shift);
 
 int main(int argc, const char * argv[]) {
     int httpListenfd, httpConnfd, httpClientlen, httpPort;
-    struct sockaddr_in httpClientaddr, pingClientaddr;
+    struct sockaddr_in httpClientaddr;
+    struct sockaddr pingClientaddr;
     struct hostent *http_hp, *ping_hp;  //Both of these should be pointers just not too sure if this works
     char *http_haddrp, *ping_haddrp;    //Same here, just not sure
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
     char buf[MAXLINE];
+    int n;
     
     if(argc != 2){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
     httpPort =  atoi((char*)argv[1]);
     httpListenfd = http_open_listenfd(httpPort);
     if(httpListenfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
-    
     pingPort = atoi((char*)argv[2]);
     pingfd = ping_setup(pingPort);
     if(pingfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
     
+    fd_set file_set;
+    FD_SET(httpListenfd, &file_set);
+    FD_SET(pingfd, &file_set);
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-        //HTTP
-        httpClientlen = sizeof(httpClientaddr);
-        httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
-        http_hp = gethostbyaddr((const char *)&httpClientaddr.sin_addr.s_addr, sizeof(httpClientaddr.sin_addr.s_addr), AF_INET);
-        http_haddrp = inet_ntoa(httpClientaddr.sin_addr);
+        int activity = select(1, &file_set, NULL, NULL, NULL);
+        if(activity == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+        
+        if(FD_ISSET(httpListenfd, &file_set)){ //This is for a http connection
+            //HTTP
+            httpClientlen = sizeof(httpClientaddr);
+            httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
+            http_hp = gethostbyaddr((const char *)&httpClientaddr.sin_addr.s_addr, sizeof(httpClientaddr.sin_addr.s_addr), AF_INET);
+            http_haddrp = inet_ntoa(httpClientaddr.sin_addr);
+            char* filePath = NULL;
+            filePath = malloc(sizeof(char) * MAXLINE);
+            int shift = -68;
+            int parent;
+            parent = recieveInputs(httpConnfd, &filePath, &shift);
+            if(parent != 0)
+                goto parentDone;
+            
+            if((filePath == NULL) && (shift == -68))
+                return 0;
+            if(filePath[0] == '.')
+                filePath++;
+            if(filePath[0] == '/')
+                filePath++;
+            
+            FILE* fptr = NULL;
+            fptr = fopen((const char*) filePath, "r");
+            if(fptr == NULL)
+            {
+                if(errno == EACCES){
+                    sprintf(buf, "HTTP/1.0 403 Forbidden\r\n\r\n");
+                    write(httpConnfd, buf, MAXLINE);
+                    close(httpConnfd);return 0;
+                }
+                else{
+                    sprintf(buf, "HTTP/1.0 404 Not Found\r\n\r\n");
+                    write(httpConnfd, buf, MAXLINE);
+                    close(httpConnfd);return 0;
+                }
+            }
+            sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
+            write(httpConnfd, buf, strlen(buf));
+            readEncryptAndOutput(httpConnfd, fptr, shift);
+            fclose(fptr);
+        parentDone:
+            free(filePath);
+            close(httpConnfd);
+            if(parent == 0)
+                goto childQuit;
+        }
+    else{ //This is where I don my ping thing
         //PING
         pingClientlen = sizeof(pingClientaddr);
-        //pingConnfd = accept(pingListenfd, (struct sockaddr *)&pingClientaddr, &pingClientlen);
-        ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
-        ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
-        
-        char* filePath = NULL;
-        filePath = malloc(sizeof(char) * MAXLINE);
-        int shift = -68;
-        
-        int parent;
-        parent = recieveInputs(httpConnfd, &filePath, &shift);
-        if(parent != 0)
-            goto parentDone;
-        
-        if((filePath == NULL) && (shift == -68))
-            return 0;
-        if(filePath[0] == '.')
-            filePath++;
-        if(filePath[0] == '/')
-            filePath++;
-        
-        FILE* fptr = NULL;
-        fptr = fopen((const char*) filePath, "r");
-        if(fptr == NULL)
-        {
-            if(errno == EACCES){
-                sprintf(buf, "HTTP/1.0 403 Forbidden\r\n\r\n");
-                write(httpConnfd, buf, MAXLINE);
-                close(httpConnfd);
-                return 0;
-            }
-            else{
-                sprintf(buf, "HTTP/1.0 404 Not Found\r\n\r\n");
-                write(httpConnfd, buf, MAXLINE);
-                close(httpConnfd);
-                return 0;
-            }
-        }
-        sprintf(buf, "HTTP/1.0 200 OK \r\n\r\n");
-        
-        write(httpConnfd, buf, strlen(buf));
-        readEncryptAndOutput(httpConnfd, fptr, shift);
-        
-        fclose(fptr);
-    parentDone:
-        free(filePath);
-        close(httpConnfd);
-        if(parent == 0)
-            goto childQuit;
+        /*
+         ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
+         ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
+         */
+        n = recvfrom(pingfd, (char *)buf, MAXLINE,MSG_WAITALL, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+        buf[n] = '\0';
     }
+}
 childQuit:
     return 0;
 }
 
 int ping_setup(int port){
-    int pingfd, optval=1;
+    int pingfd;
     struct sockaddr_in serveraddr;
     
     if ((pingfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
         return -1;
-    /*
-    if (setsockopt(pingfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&optval , sizeof(int)) < 0)
-        return -1;
-    */
     
     bzero((char *) &serveraddr, sizeof(serveraddr));
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serveraddr.sin_port = htons((unsigned short)port);
+    
     if (bind(pingfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
         return -1;
-    /*
-     if (listen(listenfd, LISTENQ) < 0)
-     return -1;
-     */
     
     return pingfd;
+}
+int http_open_listenfd(int port){
+    int listenfd, optval=1;
+    struct sockaddr_in serveraddr;
+    
+    if ((listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+        return -1;
+    
+    
+    if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR,
+                   (const void *)&optval , sizeof(int)) < 0)
+        return -1;
+    
+    
+    bzero((char *) &serveraddr, sizeof(serveraddr));
+    serveraddr.sin_family = AF_INET;
+    serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    serveraddr.sin_port = htons((unsigned short)port);
+    if (bind(listenfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
+        return -1;
+    
+    if (listen(listenfd, LISTENQ) < 0)
+        return -1;
+    
+    return listenfd;
 }
 
 void readEncryptAndOutput(int connfd, FILE* fptr, int shift){
@@ -225,30 +255,4 @@ int recieveInputs(int conn_fd, char** pathOfFile, int* shift)
     free(buf);
     free(shiftNumAsStr);
     return parent;
-}
-
-int http_open_listenfd(int port){
-    int listenfd, optval=1;
-    struct sockaddr_in serveraddr;
-    
-    if ((listenfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-        return -1;
-    
-    
-    if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR,
-                   (const void *)&optval , sizeof(int)) < 0)
-        return -1;
-    
-    
-    bzero((char *) &serveraddr, sizeof(serveraddr));
-    serveraddr.sin_family = AF_INET;
-    serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    serveraddr.sin_port = htons((unsigned short)port);
-    if (bind(listenfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
-        return -1;
-    
-    if (listen(listenfd, LISTENQ) < 0)
-        return -1;
-    
-    return listenfd;
 }
