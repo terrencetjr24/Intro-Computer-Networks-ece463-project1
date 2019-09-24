@@ -48,23 +48,19 @@ int main(int argc, const char * argv[]) {
     pingfd = ping_setup(pingPort);
     if(pingfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
     
-    fd_set master;
-    fd_set reads_fds;
-    //int fdmax;
-    //int newfd;
-    FD_ZERO(&master);
-    FD_ZERO(&reads_fds);
-    FD_SET(httpListenfd, &master);
-    FD_SET(pingfd, &master);
-    //fdmax = httpListenfd;
+    fd_set fd_list;  //fd_list
+    int maxfd;
+    FD_ZERO(&fd_list);
+    maxfd = max(pingPort, httpListenfd) + 1;
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-        reads_fds = master;
+        FD_SET(httpListenfd, &fd_list);
+        FD_SET(pingfd, &fd_list);
         
-        if((select(MAX_INT, &master, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+        if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
         
-        if(FD_ISSET(httpListenfd, &master)){ //This is for a http connection
+        if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
             //HTTP
             printf("Something should print -- http\n");
             httpClientlen = sizeof(httpClientaddr);
