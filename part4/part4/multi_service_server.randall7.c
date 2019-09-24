@@ -109,9 +109,11 @@ int main(int argc, const char * argv[]) {
          ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
          ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
          */
-        n = recvfrom(pingfd, (char *)buf, MAXLINE,MSG_WAITALL, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+        
+        n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
         buf[n] = '\0';
-        sendto(pingfd, (const char *)buf, strlen(buf), NULL, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
+        printf("%s\n", buf);
+        sendto(pingfd, (const char *)buf, strlen(buf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
     }
 }
 childQuit:
