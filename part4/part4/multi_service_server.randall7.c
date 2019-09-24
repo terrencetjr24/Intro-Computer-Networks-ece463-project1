@@ -111,6 +111,7 @@ int main(int argc, const char * argv[]) {
          */
         n = recvfrom(pingfd, (char *)buf, MAXLINE,MSG_WAITALL, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
         buf[n] = '\0';
+        sendto(pingfd, (const char *)buf, strlen(buf), NULL, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
     }
 }
 childQuit:
