@@ -73,7 +73,6 @@ int main(int argc, const char * argv[]) {
             parent = recieveInputs(httpConnfd, &filePath, &shift);
             if(parent != 0)
                 goto parentDone;
-            printf("Something should print -- http\n A zero indicates the child (%d)\n", parent);
             if((filePath == NULL) && (shift == -68))
                 return 0;
             if(filePath[0] == '.')
@@ -108,16 +107,16 @@ int main(int argc, const char * argv[]) {
         }
     else{ //This is where I don my ping thing
         //PING
-        printf("Something should print -- ping\n");
         pingClientlen = sizeof(pingClientaddr);
         /*
          ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
          ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
          */
-        
+        int i;
         n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-        buf[n] = '\0';
-        printf("%s\n", buf);
+        //buf[n] = '\0';
+        for(i = 0; i< MAXLINE; i++)
+            printf("%c\n", buf[i]);
         sendto(pingfd, (const char *)buf, strlen(buf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
     }
 }
