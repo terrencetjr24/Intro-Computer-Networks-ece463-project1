@@ -54,8 +54,9 @@ int main(int argc, const char * argv[]) {
     while(1)
     {
         int activity = select(1, &file_set, NULL, NULL, NULL);
-        if(activity == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
         
+        if(activity == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+        printf("This is what activity is: %d\n", activity);
         if(FD_ISSET(httpListenfd, &file_set)){ //This is for a http connection
             //HTTP
             httpClientlen = sizeof(httpClientaddr);
