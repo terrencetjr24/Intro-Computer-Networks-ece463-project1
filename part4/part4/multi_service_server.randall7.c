@@ -50,8 +50,8 @@ int main(int argc, const char * argv[]) {
     
     fd_set master;
     fd_set reads_fds;
-    int fdmax;
-    int newfd;
+    //int fdmax;
+    //int newfd;
     FD_ZERO(&master);
     FD_ZERO(&reads_fds);
     FD_SET(httpListenfd, &master);
@@ -62,10 +62,11 @@ int main(int argc, const char * argv[]) {
     {
         reads_fds = master;
         
-        if((select(MAX_INT, &reads_fds, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+        if((select(MAX_INT, &master, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
         
         if(FD_ISSET(httpListenfd, &master)){ //This is for a http connection
             //HTTP
+            printf("Something should print -- http\n");
             httpClientlen = sizeof(httpClientaddr);
             httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
             http_hp = gethostbyaddr((const char *)&httpClientaddr.sin_addr.s_addr, sizeof(httpClientaddr.sin_addr.s_addr), AF_INET);
@@ -112,6 +113,7 @@ int main(int argc, const char * argv[]) {
         }
     else{ //This is where I don my ping thing
         //PING
+        printf("Something should print -- ping\n");
         pingClientlen = sizeof(pingClientaddr);
         /*
          ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
