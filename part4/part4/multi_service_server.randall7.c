@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
     char *http_haddrp, *ping_haddrp;    //Same here, just not sure
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
     char buf[MAXLINE];
-    int n;
+    int n,i;
     
     if(argc != 3){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
     httpPort =  atoi((char*)argv[1]);
@@ -114,11 +114,34 @@ int main(int argc, const char * argv[]) {
          ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
          ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
          */
-        int i;
         n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-        //buf[n] = '\0';
+        buf[n] = '\0';
+        struct sockaddr_in host;    /* input */
+        socklen_t len;         /* input */
+        char hbuf[NI_MAXHOST];
+        
+        memset(&host, 0, sizeof(struct sockaddr_in));
+        
+        /* For IPv4*/
+        host.sin_family = AF_INET;
+        host.sin_addr.s_addr = inet_addr(buf);
+        len = sizeof(struct sockaddr_in);
+        
+        if (getnameinfo((struct sockaddr *) &host, len, hbuf, sizeof(hbuf),
+                        NULL, 0, NI_NAMEREQD)) {
+            printf("could not resolve hostname\n");
+        }
+        else {
+            printf("host=%s\n", hbuf);
+        
+    /*
+        struct hostent host;
+        host = gethostbyaddr(<#const void *#>, <#socklen_t#>, <#int#>)
+     */
+        /*
         for(i = 0; i< MAXLINE; i++)
             printf("%c\n", buf[i]);
+         */
         sendto(pingfd, (const char *)buf, strlen(buf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
     }
 }
