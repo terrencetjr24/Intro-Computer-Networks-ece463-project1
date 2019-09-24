@@ -120,14 +120,14 @@ int main(int argc, const char * argv[]) {
             //n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             n = read(pingfd, buf, MAXLINE);
             buf[MAXLINE-1] = '\0';
-            puts(buf);
+            printf("%s\n", buf);
             //buf[n] = '\0';
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
-            puts(hostname);
+            //puts(hostname);
             //I have the hostname, but I also want to send some number +1 as well
             sendto(pingfd, (const char *)hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
         }
