@@ -51,7 +51,7 @@ int main(int argc, const char * argv[]) {
     fd_set fd_list;  //fd_list
     int maxfd;
     FD_ZERO(&fd_list);
-    maxfd = max(pingPort, httpListenfd) + 1;
+    if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;} //Just a max function
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
