@@ -62,7 +62,6 @@ int main(int argc, const char * argv[]) {
         
         if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
             //HTTP
-            printf("Something should print -- http\n");
             httpClientlen = sizeof(httpClientaddr);
             httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
             http_hp = gethostbyaddr((const char *)&httpClientaddr.sin_addr.s_addr, sizeof(httpClientaddr.sin_addr.s_addr), AF_INET);
@@ -74,7 +73,7 @@ int main(int argc, const char * argv[]) {
             parent = recieveInputs(httpConnfd, &filePath, &shift);
             if(parent != 0)
                 goto parentDone;
-            
+            printf("Something should print -- http\n A zero indicates the child (%d)\n", parent);
             if((filePath == NULL) && (shift == -68))
                 return 0;
             if(filePath[0] == '.')
