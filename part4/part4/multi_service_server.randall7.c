@@ -106,8 +106,8 @@ int main(int argc, const char * argv[]) {
         parentDone:
             free(filePath);
             close(httpConnfd);
-            //if(parent == 0)
-                //goto childQuit;
+            if(parent == 0) //if this is the child process, I want it to quit
+                return 0;
         }
     else{ //This is where I don my ping thing
         //PING
@@ -123,8 +123,6 @@ int main(int argc, const char * argv[]) {
         sendto(pingfd, (const char *)buf, strlen(buf), 0, (const struct sockaddr *) &pingClientaddr, &pingClientlen);
     }
 }
-childQuit:
-    return 0;
 }
 
 int ping_setup(int port){
