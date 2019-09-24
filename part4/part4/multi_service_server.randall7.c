@@ -39,7 +39,7 @@ int main(int argc, const char * argv[]) {
     char buf[MAXLINE];
     int n;
     
-    if(argc != 2){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
+    if(argc != 3){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
     httpPort =  atoi((char*)argv[1]);
     httpListenfd = http_open_listenfd(httpPort);
     if(httpListenfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
