@@ -47,17 +47,23 @@ int main(int argc, const char * argv[]) {
     pingfd = ping_setup(pingPort);
     if(pingfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
     
-    fd_set file_set;
-    FD_SET(httpListenfd, &file_set);
-    FD_SET(pingfd, &file_set);
+    fd_set master;
+    fd_set reads_fds;
+    int fdmax;
+    int newfd;
+    FD_ZERO(&master);
+    FD_ZERO(&reads_fds);
+    FD_SET(httpListenfd, &master);
+    FD_SET(pingfd, &master);
+    fdmax = httpListenfd;
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-        int activity = select(1, &file_set, NULL, NULL, NULL);
+        reads_fds = master;
         
-        if(activity == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
-        printf("This is what activity is: %d\n", activity);
-        if(FD_ISSET(httpListenfd, &file_set)){ //This is for a http connection
+        if((select(fdmax+1, &reads_fds, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+        
+        if(FD_ISSET(httpListenfd, &master)){ //This is for a http connection
             //HTTP
             httpClientlen = sizeof(httpClientaddr);
             httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
