@@ -127,7 +127,7 @@ int main(int argc, const char * argv[]) {
                 buf3[i] = 0;
             }
             
-            n = recvfrom(pingfd, buf2, sizeof(char) *14, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            n = recvfrom(pingfd, buf3, sizeof(char) *14, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             buf3[n] = '\0';
             puts(buf3);
             //uint32_t *recievedNum;
