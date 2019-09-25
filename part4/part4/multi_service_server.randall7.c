@@ -134,6 +134,7 @@ int main(int argc, const char * argv[]) {
             //char dummy[5];
             char* dummy = buf3 + 9;
             uint32_t please = htonl((uint32_t) dummy);
+            please = htonl(please);
             printf("This might be the number: %u", please);
             /*
             strcpy(dummy, (const char*) (&(buf3[n-4])));
