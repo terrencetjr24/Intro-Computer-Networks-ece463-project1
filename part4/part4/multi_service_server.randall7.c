@@ -115,11 +115,16 @@ int main(int argc, const char * argv[]) {
                 
             pingClientlen = sizeof(pingClientaddr);
             char hostname[NI_MAXHOST];
+            for(n=0; n<NI_NAMEREQD; n++)
+                hostname[n] = 0;
             memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
             pingClientaddr.sin_family = AF_INET;
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char writeBuf[NI_NAMEREQD];
+            for(n=0; n<NI_NAMEREQD; n++)
+                writeBuf[n] = 0;
+            
             n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             if(!n)
                 goto loop;
@@ -132,8 +137,6 @@ int main(int argc, const char * argv[]) {
             uint32_t total = ( (256^3)* ((uint32_t)byte1)  + (256^2)* ((uint32_t)byte2) + (256)* ((uint32_t)byte3) + ((uint32_t)byte4));
             printf("This will always be the correct value: %" PRIu32"\n", total);
             total = total +1;
-            //uint32_t hostNum = ntohl(total);
-            //printf("This is the network version: %" PRIu32"\n", total);
             
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             //
