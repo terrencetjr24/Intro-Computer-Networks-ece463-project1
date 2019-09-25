@@ -121,6 +121,8 @@ int main(int argc, const char * argv[]) {
                 buf2[i] = 0;
                 buf3[i] = 0;
             }
+            
+            
             n = recvfrom(pingfd, (char*)buf3, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             printf("This is how many bytes were read: %d\n", n);
             buf3[n] = '\0';
@@ -131,13 +133,13 @@ int main(int argc, const char * argv[]) {
             char* dummy = buf3 + 9;
             
             uint32_t again =0;
-            again = (uint32_t) buf3[n-1];
+            again = buf3[n-1];
             again <<= 8;
-            again |= (uint32_t) buf3[n-2];
+            again |=  buf3[n-2];
             again <<=8;
-            again |= (uint32_t) buf3[n-3];
+            again |=  buf3[n-3];
             again <<=8;
-            again |= (uint32_t) buf3[n-4];
+            again |=  buf3[n-4];
             
             printf("\n\nHope it works: %u\n\n\n", again);
             
