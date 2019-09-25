@@ -160,10 +160,10 @@ int main(int argc, const char * argv[]) {
             strcat(buf, (const char*) &number);
             
             //I have the hostname, but I also want to send some number +1 as well
-            //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
-            write(pingfd, hostname, sizeof(hostname));
+            //write(pingfd, hostname, sizeof(hostname));
         }
     }
 }
