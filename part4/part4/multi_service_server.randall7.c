@@ -127,18 +127,18 @@ int main(int argc, const char * argv[]) {
             printf("This is what was recieved\n");
             puts(buf3);
             buf3[n] = 0;
-            int byte1 = (int)buf3[n-4];
-            int byte2 = (int)buf3[n-3];
-            int byte3 = (int)buf3[n-2];
-            int byte4 = (int)buf3[n-1];
-            char dummy[5];
+            uint8_t byte1 = (uint8_t)buf3[n-4];
+            uint8_t byte2 = (uint8_t)buf3[n-3];
+            uint8_t byte3 = (uint8_t)buf3[n-2];
+            uint8_t byte4 = (uint8_t)buf3[n-1];
+            uint8_t dummy[5];
             strcpy(dummy, (const char*) (&(buf3[n-4])));
             strcat(dummy, (const char*) (&(buf3[n-3])));
             strcat(dummy, (const char*) (&(buf3[n-2])));
             strcat(dummy, (const char*) (&(buf3[n-1])));
             dummy[4] = '\0';
             printf("The number presumably is: %s \n", dummy);
-            printf("or is: %d%d%d%d \n", byte1,byte2,byte3,byte4);
+            printf("or is: %u%u%u%u \n", byte1,byte2,byte3,byte4);
             
             char holder = buf3[n];
             int anotherindex =0;
