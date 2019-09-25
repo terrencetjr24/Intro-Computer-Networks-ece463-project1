@@ -140,7 +140,7 @@ int main(int argc, const char * argv[]) {
             puts(buf3);
             strcpy(buf2, buf3);
             buf2[n] = holder;
-            uint32_t number = 0;
+            //uint32_t number = 0;
             number = atoi((const char*) &(buf[n]));
             number <<= 8;
             number |= atoi((const char*) &(buf[n-1]));
