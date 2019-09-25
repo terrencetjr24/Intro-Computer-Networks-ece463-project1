@@ -39,25 +39,23 @@ int main(int argc, const char * argv[]) {
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
     char buf[MAXLINE];
     char buf2[MAXLINE];
-    int n;
+    int n,i;
     
     if(argc != 3){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
     httpPort =  atoi((char*)argv[1]);
     httpListenfd = http_open_listenfd(httpPort);
     if(httpListenfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
     pingPort = atoi((char*)argv[2]);
+    pingfd = ping_setup(pingPort);
+    if(pingfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
     
-    
+    fd_set fd_list;  //fd_list
+    int maxfd;
+    FD_ZERO(&fd_list);
+    if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;} //Just a max function
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-            pingfd = ping_setup(pingPort);
-            if(pingfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
-        fd_set fd_list;  //fd_list
-        int maxfd;
-        FD_ZERO(&fd_list);
-        if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;} //Just a max function
-        
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
@@ -139,7 +137,6 @@ int main(int argc, const char * argv[]) {
             
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             write(pingfd, hostname, sizeof(hostname));
-            close(pingfd);
         }
     }
 }
