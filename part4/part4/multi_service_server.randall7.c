@@ -127,7 +127,7 @@ int main(int argc, const char * argv[]) {
             printf("This is how many bytes were read: %d\n", n);
             buf[n] = '\0';
             printf("This is what was recieved\n");
-            puts(buf3);
+            puts(buf);
             buf[n] = 0;
 
             uint8_t byte1 = buf3[n-4];
@@ -135,10 +135,9 @@ int main(int argc, const char * argv[]) {
             uint8_t byte3 = buf3[n-2];
             uint8_t byte4 = buf3[n-1];
             uint32_t total = ( (256^3)* ((uint32_t)byte1)  + (256^2)* ((uint32_t)byte2) + (256)* ((uint32_t)byte3) + ((uint32_t)byte4));
-            printf("This will always be the correct value: %" PRIu32"\n\n", total);
+            printf("This will always be the correct value: %" PRIu32"\n", total);
             
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
-            
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
@@ -146,9 +145,9 @@ int main(int argc, const char * argv[]) {
             total= total +1;
             strcpy(buf, hostname);
             strcat(buf, (const char*) &total);
-            
+            socklen_t sendsize = sizeof(pingClientaddr);
             //I have the hostname, but I also want to send some number +1 as well
-            n = sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            n = sendto(pingfd, (char *)hostname, sendsize, 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             
             printf("The number of bytes sent: %d\n", n);
             
