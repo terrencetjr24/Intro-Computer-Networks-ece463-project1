@@ -133,6 +133,8 @@ int main(int argc, const char * argv[]) {
             uint8_t byte4 = (uint8_t)buf3[n-1];
             //char dummy[5];
             char* dummy = buf3 + 9;
+            uint32_t please = htonl((uint32_t) dummy);
+            printf("This might be the number: %u", please);
             /*
             strcpy(dummy, (const char*) (&(buf3[n-4])));
             strcat(dummy, (const char*) (&(buf3[n-3])));
