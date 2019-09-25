@@ -59,16 +59,15 @@ int main(int argc, const char * argv[]) {
     {
             close(pingfd);
             pingfd = ping_setup(pingPort);
-        int ready;
             if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;}
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
             FD_SET(pingfd, &fd_list);
         
-            if((ready = select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); /*return EXIT_FAILURE; */}
+            if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE; }
         
-            if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
+            while(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
                 //HTTP
                 httpClientlen = sizeof(httpClientaddr);
                 httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
@@ -113,7 +112,7 @@ int main(int argc, const char * argv[]) {
                 if(parent == 0) //if this is the child process, I want it to quit
                     return 0;
             }
-        else{   //PING
+        while(FD_ISSET(pingfd, &fd_list)) {   //PING
             pingClientlen = sizeof(pingClientaddr);
             char hostname[NI_MAXHOST];
             memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
