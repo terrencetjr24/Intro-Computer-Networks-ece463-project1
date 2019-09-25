@@ -149,7 +149,9 @@ int main(int argc, const char * argv[]) {
             uint8_t byte2 = buf3[n-3];
             uint8_t byte3 = buf3[n-2];
             uint8_t byte4 = buf3[n-1];
+            uint32_t total = ( (256^3)* ((uint32_t)byte1)  + (256^2)* ((uint32_t)byte2) + (256)* ((uint32_t)byte3) + ((uint32_t)byte4));
             
+            printf("THis will always be the correct value: %" PRIu32"\n\n", total);
             printf("This is byte one: %u, byte 2: %u, byte 3: %u, byte 4: %u\n", byte1, byte2, byte3, byte4);
             //char dummy[5];
             
