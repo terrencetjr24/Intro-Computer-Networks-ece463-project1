@@ -121,17 +121,21 @@ int main(int argc, const char * argv[]) {
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char buf2[MAXLINE];
-            for(i = 0; i <MAXLINE; i++)
+            char buf3[MAXLINE];
+            for(i = 0; i <MAXLINE; i++){
                 buf2[i] = 0;
+                buf3[i] = 0;
+            }
             
             n = recvfrom(pingfd, buf2, sizeof(char) *14, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(buf2);
+            buf3[n] = '\0';
             uint32_t *recievedNum;
             recievedNum = (buf2 + (n-4));
             //uint32_t recievedNum = atoi(*recNum);
             //recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(recievedNum);
-            pingClientaddr.sin_addr.s_addr = inet_addr(buf);
+            pingClientaddr.sin_addr.s_addr = inet_addr(buf3);
             
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
