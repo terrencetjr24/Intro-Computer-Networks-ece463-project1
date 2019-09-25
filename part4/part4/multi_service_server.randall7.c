@@ -152,10 +152,10 @@ int main(int argc, const char * argv[]) {
                 //i = strlen(hostname);
                 i = 0;
                 printf("This is the index where I want to start putting stuff: %d\n", i);
-                writeBuf[i++] = byte4;
-                writeBuf[i++] = byte3;
+                writeBuf[i++] = byte1;
                 writeBuf[i++] = byte2;
-                writeBuf[i] = byte1;
+                writeBuf[i++] = byte3;
+                writeBuf[i] = byte4;
                 strcat(writeBuf, hostname);
                 printf("This is the buffer as it stands: ");
                 for(i = 0; i<strlen(writeBuf); i++)
