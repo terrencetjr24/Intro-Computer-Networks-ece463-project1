@@ -162,7 +162,7 @@ int main(int argc, const char * argv[]) {
             socklen_t sendsize = (socklen_t)pingClientlen;
             size_t bufSize = strlen(hostname) + (sizeof(uint32_t));
             const void* holder = writeBuf;
-            n = sendto(pingfd, holder, bufSize+1, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
+            n = sendto(pingfd, holder, bufSize, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
             
             //printf("This is what I'm sending: ");
             //puts(writeBuf);
@@ -187,7 +187,7 @@ int ping_setup(int port){
     serveraddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serveraddr.sin_port = htons((unsigned short)port);
     
-    if (bind(pingfd, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
+    if (bind(pingfd, (const struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
         return -1;
     
     return pingfd;
