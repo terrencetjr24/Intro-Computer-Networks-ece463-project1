@@ -140,8 +140,11 @@ int main(int argc, const char * argv[]) {
             }
             puts(hostname);
             total= total +1;
+            
             strcpy(buf, hostname);
-            strcat(buf, (const char*) &total);
+            
+            uint32_t networkNum = htonl(total);
+            strcat(buf, (const char*) &(networkNum));
             //I have the hostname, but I also want to send some number +1 as well
             n = sendto(pingfd, (char *)&buf, strlen((const char*) &buf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             
