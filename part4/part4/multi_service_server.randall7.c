@@ -139,7 +139,7 @@ int main(int argc, const char * argv[]) {
             again <<=8;
             again |= (uint32_t) buf3[n-4];
             
-            printf("Hope it works: %u\n", again);
+            printf("\n\nHope it works: %u\n\n\n", again);
             
             
             
