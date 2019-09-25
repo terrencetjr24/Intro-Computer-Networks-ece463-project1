@@ -148,7 +148,8 @@ int main(int argc, const char * argv[]) {
             strcat(buf, (const char*) &total);
             
             //I have the hostname, but I also want to send some number +1 as well
-            n = sendto(pingfd, (const char *)hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            n = sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            
             printf("The number of bytes sent: %d\n", n);
             
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
