@@ -108,16 +108,12 @@ int main(int argc, const char * argv[]) {
                 if(parent == 0) //if this is the child process, I want it to quit
                     return 0;
             }
-        else{ //This is where I don my ping thing
-            //PING
+        else{   //PING
             pingClientlen = sizeof(pingClientaddr);
             char hostname[NI_MAXHOST];
             memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
             pingClientaddr.sin_family = AF_INET;
-            /*
-             ping_hp = gethostbyaddr((const char *)&pingClientaddr.sin_addr.s_addr, sizeof(pingClientaddr.sin_addr.s_addr), AF_INET);
-             ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
-            */
+
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char buf2[MAXLINE];
@@ -127,7 +123,8 @@ int main(int argc, const char * argv[]) {
                 buf3[i] = 0;
             }
             
-            n = recvfrom(pingfd, buf3, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            n = recvfrom(pingfd, (char*)buf3, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
+            printf("This is how many bytes were read: %d\n", n);
             //connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             //n = read(pingfd, buf3, MAXLINE);
             char holder = buf3[n];
