@@ -162,6 +162,7 @@ int main(int argc, const char * argv[]) {
             
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             write(pingfd, hostname, sizeof(hostname));
+            write(pingfd, (const void*) &number, sizeof(hostname));
         }
     }
 }
