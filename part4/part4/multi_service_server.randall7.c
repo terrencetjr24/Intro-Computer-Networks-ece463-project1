@@ -120,7 +120,6 @@ int main(int argc, const char * argv[]) {
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char writeBuf[NI_NAMEREQD];
-            while(1) {
             n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             if(!n)
                 goto loop;
@@ -170,7 +169,6 @@ int main(int argc, const char * argv[]) {
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             printf("The number of bytes sent: %d\n\n", n);
             //close(pingfd);
-            }
         }
     }
 }
