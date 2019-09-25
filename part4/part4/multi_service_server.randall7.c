@@ -131,12 +131,15 @@ int main(int argc, const char * argv[]) {
             uint8_t byte2 = (uint8_t)buf3[n-3];
             uint8_t byte3 = (uint8_t)buf3[n-2];
             uint8_t byte4 = (uint8_t)buf3[n-1];
-            uint8_t dummy[5];
+            char dummy[5];
+            //char* dummy = buf3 + 9;
+            //
             strcpy(dummy, (const char*) (&(buf3[n-4])));
             strcat(dummy, (const char*) (&(buf3[n-3])));
             strcat(dummy, (const char*) (&(buf3[n-2])));
             strcat(dummy, (const char*) (&(buf3[n-1])));
             dummy[4] = '\0';
+             //
             printf("The number presumably is: %s \n", dummy);
             printf("or is: %u%u%u%u \n", byte1,byte2,byte3,byte4);
             
