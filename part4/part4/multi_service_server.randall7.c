@@ -149,7 +149,7 @@ int main(int argc, const char * argv[]) {
                     byte3++;
                 }
                 strcpy(writeBuf, hostname);
-                i = sizeof(hostname);
+                i = strlen(hostname);
                 printf("This is the index where I want to start putting stuff: %d\n", i);
                 
                 writeBuf[i++] = byte1;
