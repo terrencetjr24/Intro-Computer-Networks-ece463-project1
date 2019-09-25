@@ -136,13 +136,12 @@ int main(int argc, const char * argv[]) {
             //printf("This is the network version: %" PRIu32"\n", total);
             
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
-            /*
+            //
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
              puts(hostname);
-            */
-            char* test = gethostbyaddr((const void*) &pingClientaddr, pingClientlen, AF_INET); puts(test);
+            //
             
         
             if(byte4 != 255)
@@ -151,8 +150,8 @@ int main(int argc, const char * argv[]) {
                 byte4 = 0;
                 byte3++;
             }
-            strcpy(writeBuf, test);
-            i = strlen(test);
+            strcpy(writeBuf, hostname);
+            i = strlen(hostname);
             printf("This is the index where I want to start putting stuff: %d\n", i);
             writeBuf[i++] = byte1;
             writeBuf[i++] = byte2;
@@ -161,6 +160,8 @@ int main(int argc, const char * argv[]) {
         
             //I have the hostname, but I also want to send some number +1 as well
             n = sendto(pingfd, (char *)&writeBuf, strlen(hostname) + (sizeof(uint8_t) *4), MSG_CONFIRM, (const struct sockaddr *)&pingClientaddr, pingClientlen);
+            printf("This is what I'm sending: ");
+            puts(writeBuf);
             /*
             connect(pingfd, (const struct sockaddr *)&pingClientaddr, pingClientlen);
             n = write(pingfd, writeBuf, strlen(hostname) + (sizeof(uint8_t) *4));
