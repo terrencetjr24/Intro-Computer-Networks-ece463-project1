@@ -121,10 +121,10 @@ int main(int argc, const char * argv[]) {
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char buf2[100];
-            n = recvfrom(pingfd, buf, sizeof(char) *4, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            n = recvfrom(pingfd, buf, sizeof(char) *15, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(buf);
             uint32_t *recievedNum;
-            recievedNum = buf2 + 5;
+            recievedNum = buf2 + 15;
             //recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(recievedNum);
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
