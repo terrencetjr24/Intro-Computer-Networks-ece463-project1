@@ -125,7 +125,7 @@ int main(int argc, const char * argv[]) {
             
             n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             printf("This is how many bytes were read: %d\n", n);
-            printf("This is what was recieved: "); puts(buf); printf("\n");
+            printf("This is what was recieved: "); puts(buf);
 
             uint8_t byte1 = buf[n-4];
             uint8_t byte2 = buf[n-3];
@@ -145,7 +145,7 @@ int main(int argc, const char * argv[]) {
             //I have the hostname, but I also want to send some number +1 as well
             n = sendto(pingfd, (char *)&buf, strlen((const char*) &buf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             
-            printf("The number of bytes sent: %d\n", n);
+            printf("The number of bytes sent: %d\n\n", n);
             
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             //write(pingfd, hostname, sizeof(hostname));
