@@ -128,8 +128,20 @@ int main(int argc, const char * argv[]) {
             }
             
             n = recvfrom(pingfd, buf3, sizeof(char) *14, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            char holder = buf3[n];
             buf3[n] = '\0';
             puts(buf3);
+            strcpy(buf2, buf3);
+            buf2[n] = holder;
+            uint32_t number = 0;
+            number = atoi((const char*) &(buf[n]));
+            number <<= 8;
+            number |= atoi((const char*) &(buf[n-1]));
+            number <<=8;
+            number |= atoi((const char*) &(buf[n-2]));
+            number <<=8;
+            number |= atoi((const char*) &(buf[n-3]));
+            printf("This is th enumber: %ud", number);
             //uint32_t *recievedNum;
             //recievedNum = (buf2 + (n-4));
             //uint32_t recievedNum = atoi(*recNum);
