@@ -122,7 +122,6 @@ int main(int argc, const char * argv[]) {
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             
-            
             n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             buf[n] = '\0';
             puts(buf);
@@ -133,6 +132,8 @@ int main(int argc, const char * argv[]) {
                 printf("could not resolve hostname\n");
             }
             puts(hostname);
+            
+            connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             //I have the hostname, but I also want to send some number +1 as well
             sendto(pingfd, (const char *)hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
         }
