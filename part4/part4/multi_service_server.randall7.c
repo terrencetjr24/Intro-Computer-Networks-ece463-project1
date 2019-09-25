@@ -150,8 +150,8 @@ int main(int argc, const char * argv[]) {
                 }
                 strcpy(writeBuf, hostname);
                 i = strlen(hostname);
+                i = i-3;
                 printf("This is the index where I want to start putting stuff: %d\n", i);
-                
                 writeBuf[i++] = byte1;
                 writeBuf[i++] = byte2;
                 writeBuf[i++] = byte3;
