@@ -140,10 +140,10 @@ int main(int argc, const char * argv[]) {
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
+             puts(hostname);
             */
-            char* test = gethostbyaddr((const void*) &pingClientaddr, pingClientlen, AF_INET);
-            //puts(hostname);
-            puts(test);
+            char* test = gethostbyaddr((const void*) &pingClientaddr, pingClientlen, AF_INET); puts(test);
+            
         
             if(byte4 != 255)
                 byte4++;
@@ -151,8 +151,8 @@ int main(int argc, const char * argv[]) {
                 byte4 = 0;
                 byte3++;
             }
-            strcpy(writeBuf, hostname);
-            i = strlen(hostname);
+            strcpy(writeBuf, test);
+            i = strlen(test);
             printf("This is the index where I want to start putting stuff: %d\n", i);
             writeBuf[i++] = byte1;
             writeBuf[i++] = byte2;
