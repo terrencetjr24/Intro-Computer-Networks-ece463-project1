@@ -141,6 +141,7 @@ int main(int argc, const char * argv[]) {
                     printf("could not resolve hostname\n");
                 }
                 puts(hostname);
+                
                 total= total +1;
                 if(byte4 != 255)
                     byte4++;
@@ -150,6 +151,8 @@ int main(int argc, const char * argv[]) {
                     byte3++;
                 }
                 strcpy(buf, hostname);
+                int indexToAdd = sizeof(buf);
+                printf("This is the index where I want to start putting stuff: %d\n", indexToAdd);
                 //strcat(buf, (const char*) &(hostNum));
                 
                 strcat(buf, (const char*) &(byte1));
