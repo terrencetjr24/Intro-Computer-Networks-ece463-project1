@@ -169,6 +169,7 @@ int main(int argc, const char * argv[]) {
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             printf("The number of bytes sent: %d\n\n", n);
             close(pingfd);
+            pingfd = ping_setup(pingPort);
         }
     }
 }
