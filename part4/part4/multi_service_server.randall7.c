@@ -133,8 +133,8 @@ int main(int argc, const char * argv[]) {
                 uint8_t byte4 = buf[n-1];
                 uint32_t total = ( (256^3)* ((uint32_t)byte1)  + (256^2)* ((uint32_t)byte2) + (256)* ((uint32_t)byte3) + ((uint32_t)byte4));
                 printf("This will always be the correct value: %" PRIu32"\n", total);
-                uint32_t hostNum = ntohl(total);
-                printf("This is the network version: %" PRIu32"\n", total);
+                //uint32_t hostNum = ntohl(total);
+                //printf("This is the network version: %" PRIu32"\n", total);
                 
                 pingClientaddr.sin_addr.s_addr = inet_addr(buf);
                 if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
@@ -150,13 +150,13 @@ int main(int argc, const char * argv[]) {
                     byte3++;
                 }
                 strcpy(buf, hostname);
-                strcat(buf, (const char*) &(hostNum));
-                /*
-                strcat(buf, (const char*) &(byte4));
-                strcat(buf, (const char*) &(byte3));
-                strcat(buf, (const char*) &(byte2));
+                //strcat(buf, (const char*) &(hostNum));
+                
                 strcat(buf, (const char*) &(byte1));
-                 */
+                strcat(buf, (const char*) &(byte2));
+                strcat(buf, (const char*) &(byte3));
+                strcat(buf, (const char*) &(byte4));
+    
                 //I have the hostname, but I also want to send some number +1 as well
                 n = sendto(pingfd, (char *)&buf, strlen((const char*) &buf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
                 
