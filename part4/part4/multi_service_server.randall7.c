@@ -157,8 +157,9 @@ int main(int argc, const char * argv[]) {
                 writeBuf[i++] = byte2;
                 writeBuf[i] = byte1;
                 strcat(writeBuf, hostname);
-                printf("This is the buffer as it stands: ");
-                puts(writeBuf);
+                printf("This is the buffer as it stands: %s", writeBuf);
+                printf("||\n");
+                //puts(writeBuf);
                 //strcat(buf, (const char*) &(hostNum));
                 /*
                 strcat(writeBuf, (const char*) &(byte1));
