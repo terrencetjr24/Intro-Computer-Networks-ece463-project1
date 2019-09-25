@@ -164,7 +164,7 @@ int main(int argc, const char * argv[]) {
             socklen_t sendsize = (socklen_t)pingClientlen;
             size_t bufSize = strlen(hostname) + (sizeof(uint32_t));
             //I have the hostname, but I also want to send some number +1 as well
-            const void* holder = htonl(writeBuf);
+            const void* holder = writeBuf;
             n = sendto(pingfd, (const void *)&holder, bufSize, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
             printf("This is what I'm sending: ");
             puts(writeBuf);
