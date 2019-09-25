@@ -145,12 +145,12 @@ int main(int argc, const char * argv[]) {
             printf("\n\nHope it works: %" PRIu32 "\n\n\n", again); //This one is pretty inconsistent but kind of works
         
             
-            int byte1 = buf3[n-4];
-            int byte2 = buf3[n-3];
-            int byte3 = buf3[n-2];
-            int byte4 = buf3[n-1];
+            uint8_t byte1 = buf3[n-4];
+            uint8_t byte2 = buf3[n-3];
+            uint8_t byte3 = buf3[n-2];
+            uint8_t byte4 = buf3[n-1];
             
-            printf("This is byte one: %d, byte 2: %d, byte 3: %d, byte 4: %d\n", byte1, byte2, byte3, byte4);
+            printf("This is byte one: %u, byte 2: %u, byte 3: %u, byte 4: %u\n", byte1, byte2, byte3, byte4);
             //char dummy[5];
             
             uint32_t please = htonl((uint32_t) dummy);
