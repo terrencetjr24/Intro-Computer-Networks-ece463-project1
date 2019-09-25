@@ -40,7 +40,8 @@ int main(int argc, const char * argv[]) {
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
     char buf[MAXLINE];
     int n,i;
-    int passes = 0;
+    for(n=0; n<MAXLINE; n++)
+        buf[n] = 0;
     
     if(argc != 3){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
     httpPort =  atoi((char*)argv[1]);
@@ -57,10 +58,7 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-        if(passes)
-            pingfd = ping_setup(pingPort);
-            for(n=0; n<MAXLINE; n++)
-                buf[n] = 0;
+
             FD_SET(httpListenfd, &fd_list);
             FD_SET(pingfd, &fd_list);
         
@@ -138,14 +136,14 @@ int main(int argc, const char * argv[]) {
             strcpy(buf2, buf3);
             buf2[n] = holder;
             uint32_t number = 0;
-            number = atoi((const char*) &(buf[n]));
+            number = atoi((const char*) &buf[n]);
             number <<= 8;
             number |= atoi((const char*) &(buf[n-1]));
             number <<=8;
             number |= atoi((const char*) &(buf[n-2]));
             number <<=8;
             number |= atoi((const char*) &(buf[n-3]));
-            printf("This is th enumber: %u\n", number);
+            printf("This is the number: %u\n", number);
             //uint32_t *recievedNum;
             //recievedNum = (buf2 + (n-4));
             //uint32_t recievedNum = atoi(*recNum);
@@ -158,6 +156,7 @@ int main(int argc, const char * argv[]) {
             }
             puts(hostname);
             
+            
             connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             
             //I have the hostname, but I also want to send some number +1 as well
@@ -165,8 +164,6 @@ int main(int argc, const char * argv[]) {
             
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             write(pingfd, hostname, sizeof(hostname));
-            close(pingfd);
-            passes++;
         }
     }
 }
