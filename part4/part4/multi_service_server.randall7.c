@@ -120,7 +120,7 @@ int main(int argc, const char * argv[]) {
             */
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
-            n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            //n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             uint32_t recievedNum = 0;
             recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             buf[n] = '\0';
