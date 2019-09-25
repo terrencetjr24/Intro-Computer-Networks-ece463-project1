@@ -124,8 +124,14 @@ int main(int argc, const char * argv[]) {
             n = recvfrom(pingfd, (char*)buf3, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             printf("This is how many bytes were read: %d\n", n);
             buf3[n] = '\0';
-            printf("This is what was recieved");
+            printf("This is what was recieved\n");
             puts(buf3);
+            buf3[n] = 0;
+            int byte1 = (int)buf3[n-4];
+            int byte2 = (int)buf3[n-3];
+            int byte3 = (int)buf3[n-2];
+            int byte4 = (int)buf3[n-1];
+            printf("The number presumably is: %d%d%d%d\n", byte1, byte2, byte3, byte4);
             
             char holder = buf3[n];
             int anotherindex =0;
