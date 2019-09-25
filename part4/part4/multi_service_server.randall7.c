@@ -59,13 +59,14 @@ int main(int argc, const char * argv[]) {
     {
             close(pingfd);
             pingfd = ping_setup(pingPort);
-        if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;}
+        int ready;
+            if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;}
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
             FD_SET(pingfd, &fd_list);
         
-            if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE;}
+            if((ready = select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); /*return EXIT_FAILURE; */}
         
             if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
                 //HTTP
