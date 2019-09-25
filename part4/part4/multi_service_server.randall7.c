@@ -20,6 +20,7 @@
 #include <errno.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <stdint.h>
 
 #define LISTENQ 10
 #define MAXLINE 255
