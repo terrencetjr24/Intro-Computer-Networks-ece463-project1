@@ -40,6 +40,7 @@ int main(int argc, const char * argv[]) {
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
     char buf[MAXLINE];
     int n,i;
+    int passes = 0;
     
     if(argc != 3){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
     httpPort =  atoi((char*)argv[1]);
@@ -56,6 +57,8 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
+        if(passes)
+            pingfd = ping_setup(pingPort);
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
@@ -163,6 +166,7 @@ int main(int argc, const char * argv[]) {
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
             write(pingfd, hostname, sizeof(hostname));
             close(pingfd);
+            passes++;
         }
     }
 }
