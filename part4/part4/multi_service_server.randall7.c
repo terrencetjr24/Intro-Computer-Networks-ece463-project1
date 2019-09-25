@@ -63,7 +63,7 @@ int main(int argc, const char * argv[]) {
             FD_SET(httpListenfd, &fd_list);
             FD_SET(pingfd, &fd_list);
         
-            if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE; }
+            if((select(maxfd+1, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE; }
         
             if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
                 //HTTP
@@ -168,8 +168,6 @@ int main(int argc, const char * argv[]) {
              */
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             printf("The number of bytes sent: %d\n\n", n);
-            close(pingfd);
-            pingfd = ping_setup(pingPort);
         }
     }
 }
