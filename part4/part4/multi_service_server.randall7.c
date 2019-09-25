@@ -123,11 +123,11 @@ int main(int argc, const char * argv[]) {
             char buf2[100];
             n = recvfrom(pingfd, buf, sizeof(char) *14, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(buf);
-            uint32_t *recNum;
-            recNum = (buf2 + 14);
-            uint32_t recievedNum = atoi(*recNum);
+            uint32_t *recievedNum;
+            recievedNum = (buf2 + 14);
+            //uint32_t recievedNum = atoi(*recNum);
             //recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-            puts(recievedNum);
+            puts(*recievedNum);
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
