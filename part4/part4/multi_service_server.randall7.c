@@ -39,7 +39,6 @@ int main(int argc, const char * argv[]) {
     char *http_haddrp, *ping_haddrp;    //Same here, just not sure
     int pingfd, /*pingConnfd,*/ pingClientlen, pingPort;
     char buf[MAXLINE];
-    char buf2[MAXLINE];
     int n,i;
     
     if(argc != 3){printf("Needs input of the desired port numbers\n\n");return EXIT_FAILURE;}
@@ -121,11 +120,12 @@ int main(int argc, const char * argv[]) {
             */
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
-            n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
-            buf[n] = '\0';
+            char buf2[100];
+            n = recvfrom(pingfd, buf, sizeof(char) *4, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(buf);
-            uint32_t recievedNum = 0;
-            recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            uint32_t *recievedNum;
+            recievedNum = buf2 + 5;
+            //recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             puts(recievedNum);
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             
