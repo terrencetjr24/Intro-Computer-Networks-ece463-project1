@@ -128,7 +128,11 @@ int main(int argc, const char * argv[]) {
             //connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             //n = read(pingfd, buf3, MAXLINE);
             char holder = buf3[n];
-            buf3[n] = '\0';
+            //buf3[n] = '\0';
+            printf("%d", buf3[n-4]);
+            printf("%d", buf3[n-3]);
+            printf("%d", buf3[n-2]);
+            printf("%d", buf3[n-1]);
             puts(buf3);
             strcpy(buf2, buf3);
             buf2[n] = holder;
