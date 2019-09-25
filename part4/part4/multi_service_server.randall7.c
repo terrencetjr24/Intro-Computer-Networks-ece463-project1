@@ -121,8 +121,11 @@ int main(int argc, const char * argv[]) {
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            uint32_t recievedNum = 0;
+            recvfrom(pingfd, (void*) &recievedNum, sizeof(uint32_t), 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             buf[n] = '\0';
             puts(buf);
+            puts(recievedNum);
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
