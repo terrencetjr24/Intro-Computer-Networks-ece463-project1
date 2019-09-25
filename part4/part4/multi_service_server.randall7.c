@@ -157,7 +157,7 @@ int main(int argc, const char * argv[]) {
                 writeBuf[i] = byte1;
                 
                 printf("This is the buffer as it stands: ");
-                for(i = 0; i< (strlen((const char*) &writeBuf) + (sizeof(uint32_t))); i++)
+                for(i = 0; i< (strlen((const char*) &writeBuf) + (sizeof(char) *4)); i++)
                     printf("%c", writeBuf[i]);
                 printf("||\n");
                 //puts(writeBuf);
@@ -169,7 +169,7 @@ int main(int argc, const char * argv[]) {
                 strcat(writeBuf, (const char*) &(byte4));
     */
                 //I have the hostname, but I also want to send some number +1 as well
-                n = sendto(pingfd, (char *)&writeBuf, strlen((const char*) &writeBuf) + (sizeof(uint32_t)), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
+                n = sendto(pingfd, (char *)&writeBuf, strlen((const char*) &writeBuf) + (sizeof(char) *4), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
                 
                 printf("The number of bytes sent: %d\n\n", n);
                 
