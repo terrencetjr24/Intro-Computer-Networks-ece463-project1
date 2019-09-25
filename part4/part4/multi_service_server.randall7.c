@@ -162,7 +162,7 @@ int main(int argc, const char * argv[]) {
             writeBuf[i] = byte4;
         
             //I have the hostname, but I also want to send some number +1 as well
-            n = sendto(pingfd, (char *)&writeBuf, strlen(hostname) + (sizeof(uint8_t) *4), 0, (const struct sockaddr *)&pingClientaddr, pingClientlen);
+            n = sendto(pingfd, (const void *)&writeBuf, strlen(hostname) + (sizeof(uint8_t) *4), 0, (const struct sockaddr *)&pingClientaddr, pingClientlen);
             printf("This is what I'm sending: ");
             puts(writeBuf);
             /*
