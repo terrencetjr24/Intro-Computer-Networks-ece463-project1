@@ -135,12 +135,15 @@ int main(int argc, const char * argv[]) {
             total = total +1;
             //uint32_t hostNum = ntohl(total);
             //printf("This is the network version: %" PRIu32"\n", total);
-        
-            pingClientaddr.sin_addr.s_addr = inet_addr(buf);
+            
+                char* trash = malloc(sizeof(char) * (n-4));
+                trash = buf;
+            pingClientaddr.sin_addr.s_addr = inet_addr(trash);
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
             puts(hostname);
+                free(trash);
         
             if(byte4 != 255)
                 byte4++;
