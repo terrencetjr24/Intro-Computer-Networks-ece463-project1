@@ -148,14 +148,15 @@ int main(int argc, const char * argv[]) {
                     byte4 = 0;
                     byte3++;
                 }
-                strcpy(writeBuf, hostname);
-                i = strlen(hostname);
-                i = i-3;
+                
+                //i = strlen(hostname);
+                i = 0;
                 printf("This is the index where I want to start putting stuff: %d\n", i);
                 writeBuf[i++] = byte1;
                 writeBuf[i++] = byte2;
                 writeBuf[i++] = byte3;
                 writeBuf[i] = byte4;
+                strcat(writeBuf, hostname);
                 //strcat(buf, (const char*) &(hostNum));
                 /*
                 strcat(writeBuf, (const char*) &(byte1));
