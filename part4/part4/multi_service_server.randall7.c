@@ -125,12 +125,17 @@ int main(int argc, const char * argv[]) {
             
             n = recvfrom(pingfd, (char*)buf3, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             printf("This is how many bytes were read: %d\n", n);
-            //connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
-            //n = read(pingfd, buf3, MAXLINE);
+            
             char holder = buf3[n];
-            char num[4];
-            *num = *buf3 + (n-4);
-            uint32_t number = htonl((unsigned long)num);
+            int anotherindex =0;
+            for(i = (n-4); i<n;i++){
+                buf2[anotherindex] = buf3[i];
+                anotherindex++;
+            }
+            buf2[anotherindex] = '\0';
+            printf("The number directly from the input\n");
+            puts(buf2);
+            //uint32_t number = htonl((unsigned long)num);
             printf("The actaull fucking number: %u\n", number);
             //buf3[n] = '\0';
             printf("%d", buf3[n-4]);
