@@ -57,6 +57,7 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
+        close(pingfd);
             pingfd = ping_setup(pingPort);
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
