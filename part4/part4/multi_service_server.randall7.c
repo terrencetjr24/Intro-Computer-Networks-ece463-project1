@@ -128,6 +128,10 @@ int main(int argc, const char * argv[]) {
             //connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             //n = read(pingfd, buf3, MAXLINE);
             char holder = buf3[n];
+            char num[4];
+            *num = *buf3 + (n-4);
+            uint32_t number = htonl((unsigned long)num);
+            printf("The actaull fucking number: %u\n", number);
             //buf3[n] = '\0';
             printf("%d", buf3[n-4]);
             printf("%d", buf3[n-3]);
