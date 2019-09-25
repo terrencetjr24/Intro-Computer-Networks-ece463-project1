@@ -141,7 +141,7 @@ int main(int argc, const char * argv[]) {
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
-             puts(hostname);
+             //puts(hostname);
             //
             
         
@@ -165,7 +165,7 @@ int main(int argc, const char * argv[]) {
             const void* holder = writeBuf;
             n = sendto(pingfd, holder, bufSize, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
             //printf("This is what I'm sending: ");
-            puts(writeBuf);
+            //puts(writeBuf);
             /*
             connect(pingfd, (const struct sockaddr *)&pingClientaddr, pingClientlen);
             n = write(pingfd, writeBuf, strlen(hostname) + (sizeof(uint8_t) *4));
