@@ -57,8 +57,9 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-        close(pingfd);
+            close(pingfd);
             pingfd = ping_setup(pingPort);
+        if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;}
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
