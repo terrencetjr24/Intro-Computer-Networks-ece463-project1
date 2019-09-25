@@ -148,17 +148,16 @@ int main(int argc, const char * argv[]) {
                     byte4 = 0;
                     byte3++;
                 }
-                
-                //i = strlen(hostname);
-                i = 0;
+                strcpy(writeBuf, hostname);
+                i = strlen(hostname);
                 printf("This is the index where I want to start putting stuff: %d\n", i);
-                writeBuf[i++] = byte1;
-                writeBuf[i++] = byte2;
+                writeBuf[i++] = byte4;
                 writeBuf[i++] = byte3;
-                writeBuf[i] = byte4;
-                strcat(writeBuf, hostname);
+                writeBuf[i++] = byte2;
+                writeBuf[i] = byte1;
+                
                 printf("This is the buffer as it stands: ");
-                for(i = 0; i<strlen(writeBuf); i++)
+                for(i = 0; i< (strlen((const char*) &writeBuf) + (sizeof(uint32_t))); i++)
                     printf("%c", writeBuf[i]);
                 printf("||\n");
                 //puts(writeBuf);
@@ -170,7 +169,7 @@ int main(int argc, const char * argv[]) {
                 strcat(writeBuf, (const char*) &(byte4));
     */
                 //I have the hostname, but I also want to send some number +1 as well
-                n = sendto(pingfd, (char *)&writeBuf, strlen((const char*) &writeBuf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
+                n = sendto(pingfd, (char *)&writeBuf, strlen((const char*) &writeBuf) + (sizeof(uint32_t)), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
                 
                 printf("The number of bytes sent: %d\n\n", n);
                 
