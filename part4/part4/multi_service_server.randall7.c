@@ -57,9 +57,6 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
-            close(pingfd);
-            pingfd = ping_setup(pingPort);
-            if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;}
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
@@ -67,7 +64,7 @@ int main(int argc, const char * argv[]) {
         
             if((select(maxfd, &fd_list, NULL, NULL, NULL)) == -1){printf("Error in selecting\n"); return EXIT_FAILURE; }
         
-            while(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
+            if(FD_ISSET(httpListenfd, &fd_list)){ //This is for a http connection
                 //HTTP
                 httpClientlen = sizeof(httpClientaddr);
                 httpConnfd = accept(httpListenfd, (struct sockaddr *)&httpClientaddr, &httpClientlen);
@@ -112,7 +109,8 @@ int main(int argc, const char * argv[]) {
                 if(parent == 0) //if this is the child process, I want it to quit
                     return 0;
             }
-        while(FD_ISSET(pingfd, &fd_list)) {   //PING
+        else {   //PING
+            while(n){
             pingClientlen = sizeof(pingClientaddr);
             char hostname[NI_MAXHOST];
             memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
@@ -162,6 +160,7 @@ int main(int argc, const char * argv[]) {
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             printf("The number of bytes sent: %d\n\n", n);
             //close(pingfd);
+            }
         }
     }
 }
