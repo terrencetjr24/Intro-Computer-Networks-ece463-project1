@@ -141,7 +141,7 @@ int main(int argc, const char * argv[]) {
             again |= (uint32_t) buf3[n-2];
             again <<=8;
             again |= (uint32_t) buf3[n-1];
-            
+            printf("I feel it %d%d%d%d\n", buf3[n-4], buf3[n-3], buf3[n-2], buf3[n-1])
             printf("\n\nHope it works: %" PRIu32 "\n\n\n", again);
         
             
