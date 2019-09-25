@@ -130,7 +130,7 @@ int main(int argc, const char * argv[]) {
             n = recvfrom(pingfd, buf3, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             char holder = buf3[n];
             buf3[n] = '\0';
-            printf(")
+            //printf(")
             puts(buf3);
             strcpy(buf2, buf3);
             buf2[n] = holder;
