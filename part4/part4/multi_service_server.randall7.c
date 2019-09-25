@@ -130,19 +130,19 @@ int main(int argc, const char * argv[]) {
             n = recvfrom(pingfd, buf3, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             char holder = buf3[n];
             buf3[n] = '\0';
-            //printf(")
             puts(buf3);
             strcpy(buf2, buf3);
             buf2[n] = holder;
             uint32_t number = 0;
             number = atoi((const char*) &(buf[n]));
+            printf("The first number: %u\n\n", number);
             number <<= 8;
             number |= atoi((const char*) &(buf[n-1]));
             number <<=8;
             number |= atoi((const char*) &(buf[n-2]));
             number <<=8;
             number |= atoi((const char*) &(buf[n-3]));
-            printf("This is th enumber: %u\n", number);
+            printf("This is the number: %u\n", number);
             //uint32_t *recievedNum;
             //recievedNum = (buf2 + (n-4));
             //uint32_t recievedNum = atoi(*recNum);
