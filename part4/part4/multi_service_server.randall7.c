@@ -127,10 +127,10 @@ int main(int argc, const char * argv[]) {
             printf("This is what was recieved\n");
             puts(buf3);
             buf3[n] = 0;
-            uint8_t byte1 = (uint8_t)buf3[n-4];
-            uint8_t byte2 = (uint8_t)buf3[n-3];
-            uint8_t byte3 = (uint8_t)buf3[n-2];
-            uint8_t byte4 = (uint8_t)buf3[n-1];
+            uint8_t byte1 = (uint8_t)buf3[n-3];
+            uint8_t byte2 = (uint8_t)buf3[n-2];
+            uint8_t byte3 = (uint8_t)buf3[n-1];
+            uint8_t byte4 = (uint8_t)buf3[n-0];
             char dummy[5];
             //char* dummy = buf3 + 9;
             //
