@@ -130,10 +130,10 @@ int main(int argc, const char * argv[]) {
             puts(buf);
             buf[n] = 0;
 
-            uint8_t byte1 = buf3[n-4];
-            uint8_t byte2 = buf3[n-3];
-            uint8_t byte3 = buf3[n-2];
-            uint8_t byte4 = buf3[n-1];
+            uint8_t byte1 = buf[n-4];
+            uint8_t byte2 = buf[n-3];
+            uint8_t byte3 = buf[n-2];
+            uint8_t byte4 = buf[n-1];
             uint32_t total = ( (256^3)* ((uint32_t)byte1)  + (256^2)* ((uint32_t)byte2) + (256)* ((uint32_t)byte3) + ((uint32_t)byte4));
             printf("This will always be the correct value: %" PRIu32"\n", total);
             
