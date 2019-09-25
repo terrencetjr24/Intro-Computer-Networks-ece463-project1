@@ -113,7 +113,6 @@ int main(int argc, const char * argv[]) {
             char hostname[NI_MAXHOST];
             memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
             pingClientaddr.sin_family = AF_INET;
-
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char buf2[MAXLINE];
@@ -122,9 +121,11 @@ int main(int argc, const char * argv[]) {
                 buf2[i] = 0;
                 buf3[i] = 0;
             }
-            
             n = recvfrom(pingfd, (char*)buf3, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             printf("This is how many bytes were read: %d\n", n);
+            buf3[n] = '\0';
+            printf("This is what was recieved");
+            puts(buf3);
             
             char holder = buf3[n];
             int anotherindex =0;
