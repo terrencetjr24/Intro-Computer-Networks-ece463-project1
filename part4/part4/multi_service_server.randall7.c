@@ -119,13 +119,10 @@ int main(int argc, const char * argv[]) {
              ping_haddrp = inet_ntoa(pingClientaddr.sin_addr);
             */
             
-            
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
-            
             n = recvfrom(pingfd, buf, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
             buf[n] = '\0';
             puts(buf);
-            //buf[n] = '\0';
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
             
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
@@ -134,8 +131,12 @@ int main(int argc, const char * argv[]) {
             puts(hostname);
             
             connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
+            
             //I have the hostname, but I also want to send some number +1 as well
             sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            
+            sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            write(pingfd, hostname, sizeof(hostname));
         }
     }
 }
