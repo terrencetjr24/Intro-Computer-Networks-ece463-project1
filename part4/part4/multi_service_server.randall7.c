@@ -134,13 +134,13 @@ int main(int argc, const char * argv[]) {
             char* dummy = buf3 + 9;
             
             uint32_t again =0;
-            again = (uint8_t) buf3[n-1];
+            again |= (uint32_t) buf3[n-1];
             again <<= 8;
-            again |= (uint8_t) buf3[n-2];
+            again |= (uint32_t) buf3[n-2];
             again <<=8;
-            again |= (uint8_t) buf3[n-3];
+            again |= (uint32_t) buf3[n-3];
             again <<=8;
-            again |= (uint8_t) buf3[n-4];
+            again |= (uint32_t) buf3[n-4];
             
             printf("\n\nHope it works: %" PRIu32 "\n\n\n", again);
         
