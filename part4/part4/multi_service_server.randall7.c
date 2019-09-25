@@ -127,7 +127,9 @@ int main(int argc, const char * argv[]) {
                 buf3[i] = 0;
             }
             
-            n = recvfrom(pingfd, buf3, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            //n = recvfrom(pingfd, buf3, MAXLINE, 0, ( struct sockaddr *) &pingClientaddr, &pingClientlen);
+            connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
+            n = read(pingfd, buf3, MAXLINE);
             char holder = buf3[n];
             buf3[n] = '\0';
             puts(buf3);
@@ -135,7 +137,6 @@ int main(int argc, const char * argv[]) {
             buf2[n] = holder;
             uint32_t number = 0;
             number = atoi((const char*) &(buf[n]));
-            printf("The first number: %u\n\n", number);
             number <<= 8;
             number |= atoi((const char*) &(buf[n-1]));
             number <<=8;
@@ -157,7 +158,6 @@ int main(int argc, const char * argv[]) {
             
             strcpy(buf, hostname);
             strcat(buf, (const char*) &number);
-            connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             
             //I have the hostname, but I also want to send some number +1 as well
             //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
