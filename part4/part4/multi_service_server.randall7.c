@@ -125,10 +125,7 @@ int main(int argc, const char * argv[]) {
             
             n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             printf("This is how many bytes were read: %d\n", n);
-            //buf[n] = '\0';
-            printf("This is what was recieved\n");
-            puts(buf);
-            //buf[n] = 0;
+            printf("This is what was recieved: "); puts(buf); printf("\n");
 
             uint8_t byte1 = buf[n-4];
             uint8_t byte2 = buf[n-3];
