@@ -122,7 +122,7 @@ int main(int argc, const char * argv[]) {
             char writeBuf[NI_NAMEREQD];
             for(n=0; n<NI_NAMEREQD; n++)
                 writeBuf[n] = 0;
-            
+            while(1) {
             n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             if(!n)
                 goto loop;
@@ -143,7 +143,6 @@ int main(int argc, const char * argv[]) {
             }
              //puts(hostname);
             //
-            
         
             if(byte4 != 255)
                 byte4++;
@@ -171,6 +170,7 @@ int main(int argc, const char * argv[]) {
             n = write(pingfd, writeBuf, strlen(hostname) + (sizeof(uint8_t) *4));
              */
             //printf("The number of bytes sent: %d\n\n", n);
+            }
         }
     }
 }
