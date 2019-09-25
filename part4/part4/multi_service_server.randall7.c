@@ -127,12 +127,34 @@ int main(int argc, const char * argv[]) {
             printf("This is what was recieved\n");
             puts(buf3);
             buf3[n] = 0;
+            
+            char* dummy = buf3 + 9;
+            
+            uint32_t again =0;
+            again = (uint32_t) buf3[n-1];
+            again <<= 8;
+            again |= (uint32_t) buf3[n-2];
+            again <<=8;
+            again |= (uint32_t) buf3[n-3];
+            again <<=8;
+            again |= (uint32_t) buf3[n-4];
+            
+            printf("Hope it works: %u\n", again);
+            
+            
+            
+            
+            
+            
+            
+            
+            
             uint8_t byte1 = (uint8_t)buf3[n-4];
             uint8_t byte2 = (uint8_t)buf3[n-3];
             uint8_t byte3 = (uint8_t)buf3[n-2];
             uint8_t byte4 = (uint8_t)buf3[n-1];
             //char dummy[5];
-            char* dummy = buf3 + 9;
+            
             uint32_t please = htonl((uint32_t) dummy);
             please = htonl(please);
             printf("This might be the number: %u", please);
