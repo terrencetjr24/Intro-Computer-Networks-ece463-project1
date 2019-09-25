@@ -111,7 +111,6 @@ int main(int argc, const char * argv[]) {
                     return 0;
             }
         else {   //PING
-            while(n){
                 printf("Still in here\n");
                 
             pingClientlen = sizeof(pingClientaddr);
@@ -136,14 +135,14 @@ int main(int argc, const char * argv[]) {
             //uint32_t hostNum = ntohl(total);
             //printf("This is the network version: %" PRIu32"\n", total);
             
-                char* trash = malloc(sizeof(char) * (n-4));
-                trash = buf;
-            pingClientaddr.sin_addr.s_addr = inet_addr(trash);
+            pingClientaddr.sin_addr.s_addr = inet_addr(buf);
+            /*
             if (getnameinfo((struct sockaddr *) &pingClientaddr, pingClientlen, hostname, sizeof(hostname), NULL, 0, NI_NAMEREQD)) {
                 printf("could not resolve hostname\n");
             }
+            */
+            hostname = gethostbyaddr((const void*) &pingClientaddr, pingClientlen, AF_INET);
             puts(hostname);
-                free(trash);
         
             if(byte4 != 255)
                 byte4++;
@@ -168,7 +167,6 @@ int main(int argc, const char * argv[]) {
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             printf("The number of bytes sent: %d\n\n", n);
             //close(pingfd);
-            }
         }
     }
 }
