@@ -121,7 +121,7 @@ int main(int argc, const char * argv[]) {
                 writeBuf[i] = 0;
             }
             
-            while(n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen)){
+            n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
                 printf("This is how many bytes were read: %d\n", n);
                 printf("This is what was recieved: "); puts(buf);
 
@@ -174,7 +174,7 @@ int main(int argc, const char * argv[]) {
                 
                 //sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
                 //write(pingfd, hostname, sizeof(hostname));
-            }
+            
         }
     }
 }
