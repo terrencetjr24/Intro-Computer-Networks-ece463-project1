@@ -111,6 +111,7 @@ int main(int argc, const char * argv[]) {
             }
         else {   //PING
             while(n){
+                printf("Still in here\n");
             pingClientlen = sizeof(pingClientaddr);
             char hostname[NI_MAXHOST];
             memset(&pingClientaddr, 0, sizeof(struct sockaddr_in));
