@@ -136,7 +136,7 @@ int main(int argc, const char * argv[]) {
             printf("The number directly from the input\n");
             puts(buf2);
             //uint32_t number = htonl((unsigned long)num);
-            printf("The actaull fucking number: %u\n", number);
+            //printf("The actaull fucking number: %u\n", number);
             //buf3[n] = '\0';
             printf("%d", buf3[n-4]);
             printf("%d", buf3[n-3]);
