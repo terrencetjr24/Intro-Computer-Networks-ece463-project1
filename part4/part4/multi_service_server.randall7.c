@@ -131,7 +131,14 @@ int main(int argc, const char * argv[]) {
             int byte2 = (int)buf3[n-3];
             int byte3 = (int)buf3[n-2];
             int byte4 = (int)buf3[n-1];
-            printf("The number presumably is: %d%d%d%d\n", byte1, byte2, byte3, byte4);
+            char dummy[5];
+            strcpy(dummy, (const char*) (&(buf3[n-4])));
+            strcat(dummy, (const char*) (&(buf3[n-3])));
+            strcat(dummy, (const char*) (&(buf3[n-2])));
+            strcat(dummy, (const char*) (&(buf3[n-1])));
+            dummy[4] = '\0';
+            printf("The number presumably is: %s \n", dummy);
+            printf("or is: %d%d%d%d \n", byte1,byte2,byte3,byte4);
             
             char holder = buf3[n];
             int anotherindex =0;
