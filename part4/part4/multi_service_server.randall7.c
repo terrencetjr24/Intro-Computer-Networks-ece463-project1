@@ -141,7 +141,7 @@ int main(int argc, const char * argv[]) {
             number |= atoi((const char*) &(buf[n-2]));
             number <<=8;
             number |= atoi((const char*) &(buf[n-3]));
-            printf("This is th enumber: %ud", number);
+            printf("This is th enumber: %u\n", number);
             //uint32_t *recievedNum;
             //recievedNum = (buf2 + (n-4));
             //uint32_t recievedNum = atoi(*recNum);
