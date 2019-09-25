@@ -47,15 +47,17 @@ int main(int argc, const char * argv[]) {
     if(httpListenfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
     pingPort = atoi((char*)argv[2]);
     
-    fd_set fd_list;  //fd_list
-    int maxfd;
-    FD_ZERO(&fd_list);
-    if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;} //Just a max function
+    
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
             pingfd = ping_setup(pingPort);
             if(pingfd == -1){printf("Error establishing a listenfd");return EXIT_FAILURE;}
+        fd_set fd_list;  //fd_list
+        int maxfd;
+        FD_ZERO(&fd_list);
+        if(pingPort - httpListenfd){maxfd = pingPort + 1;}else{maxfd = httpListenfd +1;} //Just a max function
+        
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
