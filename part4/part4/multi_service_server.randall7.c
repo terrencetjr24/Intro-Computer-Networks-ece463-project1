@@ -117,7 +117,7 @@ int main(int argc, const char * argv[]) {
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
             char writeBuf[NI_NAMEREQD + 4];
-            for(i = 0; i <MAXLINE; i++){
+            for(i = 0; i <(NI_NAMEREQD +4); i++){
                 writeBuf[i] = 0;
             }
             
@@ -149,14 +149,13 @@ int main(int argc, const char * argv[]) {
                     byte3++;
                 }
                 strcpy(writeBuf, hostname);
-                i = 0;
-                while(writeBuf[i] != 0)
-                    i++;
+                i = sizeof(hostname);
+                printf("This is the index where I want to start putting stuff: %d\n", i);
+                
                 writeBuf[i++] = byte1;
                 writeBuf[i++] = byte2;
                 writeBuf[i++] = byte3;
                 writeBuf[i] = byte4;
-                printf("This is the index where I want to start putting stuff: %d\n", i);
                 //strcat(buf, (const char*) &(hostNum));
                 /*
                 strcat(writeBuf, (const char*) &(byte1));
