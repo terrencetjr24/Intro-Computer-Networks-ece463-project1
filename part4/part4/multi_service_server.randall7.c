@@ -141,8 +141,9 @@ int main(int argc, const char * argv[]) {
                 printf("could not resolve hostname\n");
             }
             */
-            hostname = gethostbyaddr((const void*) &pingClientaddr, pingClientlen, AF_INET);
-            puts(hostname);
+            char* test = gethostbyaddr((const void*) &pingClientaddr, pingClientlen, AF_INET);
+            //puts(hostname);
+            puts(test);
         
             if(byte4 != 255)
                 byte4++;
