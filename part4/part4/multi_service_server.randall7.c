@@ -116,11 +116,9 @@ int main(int argc, const char * argv[]) {
             pingClientaddr.sin_family = AF_INET;
             
             //HERE WORKING ON RECIEVING THE FULL PING, AND BEING ABLE TO OUTPUT THE CORRECT RESPONSE
-            char buf2[MAXLINE];
-            char buf3[MAXLINE];
+            char writeBuf[NI_NAMEREQD + 4];
             for(i = 0; i <MAXLINE; i++){
-                buf2[i] = 0;
-                buf3[i] = 0;
+                writeBuf[i] = 0;
             }
             
             while(n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen)){
@@ -150,18 +148,20 @@ int main(int argc, const char * argv[]) {
                     byte4 = 0;
                     byte3++;
                 }
-                strcpy(buf, hostname);
-                int indexToAdd = sizeof(buf);
-                printf("This is the index where I want to start putting stuff: %d\n", indexToAdd);
+                strcpy(writeBuf, hostname);
+                i = 0;
+                while(writeBuf[i] != 0)
+                    i++;
+                printf("This is the index where I want to start putting stuff: %d\n", i);
                 //strcat(buf, (const char*) &(hostNum));
                 
-                strcat(buf, (const char*) &(byte1));
-                strcat(buf, (const char*) &(byte2));
-                strcat(buf, (const char*) &(byte3));
-                strcat(buf, (const char*) &(byte4));
+                strcat(writeBuf, (const char*) &(byte1));
+                strcat(writeBuf, (const char*) &(byte2));
+                strcat(writeBuf, (const char*) &(byte3));
+                strcat(writeBuf, (const char*) &(byte4));
     
                 //I have the hostname, but I also want to send some number +1 as well
-                n = sendto(pingfd, (char *)&buf, strlen((const char*) &buf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
+                n = sendto(pingfd, (char *)&writeBuf, strlen((const char*) &writeBuf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
                 
                 printf("The number of bytes sent: %d\n\n", n);
                 
