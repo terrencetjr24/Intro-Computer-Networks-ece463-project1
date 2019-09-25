@@ -57,6 +57,7 @@ int main(int argc, const char * argv[]) {
     //http stuff (I just changed the names to stuff so it should all still function properly)
     while(1)
     {
+            pingfd = ping_setup(pingPort);
             for(n=0; n<MAXLINE; n++)
                 buf[n] = 0;
             FD_SET(httpListenfd, &fd_list);
@@ -151,12 +152,14 @@ int main(int argc, const char * argv[]) {
             writeBuf[i] = byte4;
         
             //I have the hostname, but I also want to send some number +1 as well
-            //n = sendto(pingfd, (char *)&writeBuf, strlen(hostname) + (sizeof(uint8_t) *4), MSG_CONFIRM, (const struct sockaddr *)&pingClientaddr, pingClientlen);
+            n = sendto(pingfd, (char *)&writeBuf, strlen(hostname) + (sizeof(uint8_t) *4), MSG_CONFIRM, (const struct sockaddr *)&pingClientaddr, pingClientlen);
+            /*
             connect(pingfd, (const struct sockaddr *)&pingClientaddr, pingClientlen);
             n = write(pingfd, writeBuf, strlen(hostname) + (sizeof(uint8_t) *4));
-        
+             */
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             printf("The number of bytes sent: %d\n\n", n);
+            close(pingfd);
         }
     }
 }
