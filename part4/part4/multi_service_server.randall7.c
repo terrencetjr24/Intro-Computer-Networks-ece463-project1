@@ -152,14 +152,18 @@ int main(int argc, const char * argv[]) {
                 i = 0;
                 while(writeBuf[i] != 0)
                     i++;
+                writeBuf[i++] = byte1;
+                writeBuf[i++] = byte2;
+                writeBuf[i++] = byte3;
+                writeBuf[i] = byte4;
                 printf("This is the index where I want to start putting stuff: %d\n", i);
                 //strcat(buf, (const char*) &(hostNum));
-                
+                /*
                 strcat(writeBuf, (const char*) &(byte1));
                 strcat(writeBuf, (const char*) &(byte2));
                 strcat(writeBuf, (const char*) &(byte3));
                 strcat(writeBuf, (const char*) &(byte4));
-    
+    */
                 //I have the hostname, but I also want to send some number +1 as well
                 n = sendto(pingfd, (char *)&writeBuf, strlen((const char*) &writeBuf), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
                 
