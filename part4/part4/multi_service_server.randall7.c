@@ -141,7 +141,7 @@ int main(int argc, const char * argv[]) {
             again <<=8;
             again |= (uint8_t) buf3[n-4];
             
-            printf("\n\nHope it works: %u\n\n\n", again);
+            printf("\n\nHope it works: %" PRIu32 "\n\n\n", again);
         
             
             uint8_t byte1 = (uint8_t)buf3[n-4];
