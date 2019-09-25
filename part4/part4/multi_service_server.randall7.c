@@ -163,13 +163,13 @@ int main(int argc, const char * argv[]) {
             size_t bufSize = strlen(hostname) + (sizeof(uint32_t));
             //I have the hostname, but I also want to send some number +1 as well
             const void* holder = writeBuf;
-            n = sendto(pingfd, holder, bufSize, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
+            //n = sendto(pingfd, holder, bufSize, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
             //printf("This is what I'm sending: ");
             //puts(writeBuf);
-            /*
+            //somewhat easier
             connect(pingfd, (const struct sockaddr *)&pingClientaddr, pingClientlen);
             n = write(pingfd, writeBuf, strlen(hostname) + (sizeof(uint8_t) *4));
-             */
+             //
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
             //printf("The number of bytes sent: %d\n\n", n);
         }
