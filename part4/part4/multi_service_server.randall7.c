@@ -111,8 +111,6 @@ int main(int argc, const char * argv[]) {
                     return 0;
             }
         else {   //PING
-                printf("Still in here\n");
-                
             pingClientlen = sizeof(pingClientaddr);
             char hostname[NI_MAXHOST];
             for(n=0; n<NI_NAMEREQD; n++)
@@ -128,14 +126,14 @@ int main(int argc, const char * argv[]) {
             n = recvfrom(pingfd, (char*)buf, MAXLINE, 0, (struct sockaddr *) &pingClientaddr, &pingClientlen);
             if(!n)
                 goto loop;
-                printf("This is how many bytes were read: %d\n", n);
-            printf("This is what was recieved: "); puts(buf);
+                //printf("This is how many bytes were read: %d\n", n);
+            //printf("This is what was recieved: "); puts(buf);
             uint8_t byte1 = buf[n-4];
             uint8_t byte2 = buf[n-3];
             uint8_t byte3 = buf[n-2];
             uint8_t byte4 = buf[n-1];
             uint32_t total = ( (256^3)* ((uint32_t)byte1)  + (256^2)* ((uint32_t)byte2) + (256)* ((uint32_t)byte3) + ((uint32_t)byte4));
-            printf("This will always be the correct value: %" PRIu32"\n", total);
+            //printf("This will always be the correct value: %" PRIu32"\n", total);
             total = total +1;
             
             pingClientaddr.sin_addr.s_addr = inet_addr(buf);
@@ -155,7 +153,7 @@ int main(int argc, const char * argv[]) {
             }
             strcpy(writeBuf, hostname);
             i = strlen(hostname);
-            printf("This is the index where I want to start putting stuff: %d\n", i);
+            //printf("This is the index where I want to start putting stuff: %d\n", i);
             writeBuf[i++] = byte1;
             writeBuf[i++] = byte2;
             writeBuf[i++] = byte3;
@@ -166,14 +164,14 @@ int main(int argc, const char * argv[]) {
             //I have the hostname, but I also want to send some number +1 as well
             const void* holder = writeBuf;
             n = sendto(pingfd, holder, bufSize, 0, (const struct sockaddr *)&pingClientaddr, sendsize);
-            printf("This is what I'm sending: ");
+            //printf("This is what I'm sending: ");
             puts(writeBuf);
             /*
             connect(pingfd, (const struct sockaddr *)&pingClientaddr, pingClientlen);
             n = write(pingfd, writeBuf, strlen(hostname) + (sizeof(uint8_t) *4));
              */
             //n = sendto(pingfd, (char *)&hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, pingClientlen);
-            printf("The number of bytes sent: %d\n\n", n);
+            //printf("The number of bytes sent: %d\n\n", n);
         }
     }
 }
