@@ -135,7 +135,7 @@ int main(int argc, const char * argv[]) {
             
             connect(pingfd, (const struct sockaddr*)&pingClientaddr,sizeof(pingClientaddr));
             //I have the hostname, but I also want to send some number +1 as well
-            sendto(pingfd, (const char *)hostname, strlen(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
+            sendto(pingfd, (const char *)hostname, sizeof(hostname), 0, (const struct sockaddr *) &pingClientaddr, sizeof(pingClientlen));
         }
     }
 }
