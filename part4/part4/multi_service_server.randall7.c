@@ -132,7 +132,7 @@ int main(int argc, const char * argv[]) {
             printf("%d", buf3[n-4]);
             printf("%d", buf3[n-3]);
             printf("%d", buf3[n-2]);
-            printf("%d", buf3[n-1]);
+            printf("%d\n", buf3[n-1]);
             puts(buf3);
             strcpy(buf2, buf3);
             buf2[n] = holder;
